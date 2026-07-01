@@ -1,0 +1,40 @@
+import { MapPin, ChevronDown } from "lucide-react";
+
+export default function Navbar() {
+  return (
+    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center justify-center w-9 h-9 bg-green-600 rounded-lg">
+              <span className="text-white font-bold text-sm leading-none">GF</span>
+            </div>
+            <span className="text-gray-900 font-bold text-xl tracking-tight">GigaFix</span>
+          </div>
+
+          {/* Nav links */}
+          <nav className="hidden md:flex items-center gap-7">
+            <a href="#" className="text-sm font-medium text-gray-900 border-b-2 border-green-600 pb-0.5">Home</a>
+            <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Find Services</a>
+            <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How It Works</a>
+            <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Professionals</a>
+            <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</a>
+          </nav>
+
+          {/* Right side */}
+          <div className="flex items-center gap-3">
+            <button className="hidden md:flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 rounded-full px-3 py-1.5">
+              <MapPin className="w-4 h-4 text-green-600" />
+              <span>Ruiru, Kiambu</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+            <button className="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors">
+              Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
