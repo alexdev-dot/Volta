@@ -29,7 +29,7 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-14 bg-gray-50/70">
+    <section id="how-it-works" className="py-14" style={{ backgroundColor: "#F8FAFC" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Label */}
         <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.15em] mb-2">
