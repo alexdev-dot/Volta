@@ -63,52 +63,21 @@ export default function HowItWorksPage() {
       {/* 4 Step Cards */}
       <section className="pb-10 px-4 bg-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {STEPS.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <div key={step.label} className="relative bg-white rounded-2xl border border-gray-200 shadow-sm overflow-visible flex flex-col">
-                {/* Arrow between cards */}
-                {idx < 3 && (
-                  <div className="hidden lg:flex absolute -right-4 top-[38%] z-10 w-8 h-8 bg-white border border-gray-200 rounded-full items-center justify-center shadow-md">
-                    <ArrowRight className="w-4 h-4 text-green-600" />
-                  </div>
-                )}
-
-                {/* Card header */}
-                <div className="flex items-center gap-2.5 px-4 pt-5 pb-3">
-                  <div className="w-9 h-9 bg-green-50 border border-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-green-600" />
-                  </div>
-                  <h3 className="font-bold text-gray-900 text-sm leading-tight">{step.label}</h3>
+          {STEPS.map((step, idx) => (
+            <div key={step.label} className="relative rounded-2xl overflow-hidden shadow-sm">
+              {/* Arrow between cards */}
+              {idx < 3 && (
+                <div className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-8 h-8 bg-white border border-gray-200 rounded-full items-center justify-center shadow-md">
+                  <ArrowRight className="w-4 h-4 text-green-600" />
                 </div>
-
-                {/* Image illustration */}
-                <div className="px-3 pb-3">
-                  <img
-                    src={step.img}
-                    alt={step.label}
-                    className="w-full h-52 object-cover object-top rounded-xl"
-                  />
-                </div>
-
-                {/* Divider */}
-                <div className="mx-4 border-t border-gray-100" />
-
-                {/* Bottom text */}
-                <div className="px-4 py-4">
-                  <h4 className="font-extrabold text-gray-900 mb-2.5 text-sm">{step.label}</h4>
-                  <ul className="space-y-1.5">
-                    {step.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2 text-gray-600 text-xs leading-relaxed">
-                        <span className="w-1.5 h-1.5 rounded-full bg-gray-500 mt-1.5 flex-shrink-0" />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            );
-          })}
+              )}
+              <img
+                src={step.img}
+                alt={step.label}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
         </div>
       </section>
 
