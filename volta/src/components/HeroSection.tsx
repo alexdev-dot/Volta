@@ -128,31 +128,24 @@ export default function HeroSection() {
               aria-hidden
             >
               <style>{`
-                @keyframes ring-pulse-outer {
-                  0%   { opacity: 0.35; transform: scale(0.97); filter: drop-shadow(0 0 0px #86efac); }
-                  50%  { opacity: 0.80; transform: scale(1.02); filter: drop-shadow(0 0 12px #4ade80); }
-                  100% { opacity: 0.35; transform: scale(0.97); filter: drop-shadow(0 0 0px #86efac); }
-                }
-                @keyframes ring-pulse-inner {
-                  0%   { opacity: 0.50; transform: scale(0.98); filter: drop-shadow(0 0 0px #86efac); }
-                  50%  { opacity: 1.00; transform: scale(1.03); filter: drop-shadow(0 0 16px #22c55e); }
-                  100% { opacity: 0.50; transform: scale(0.98); filter: drop-shadow(0 0 0px #86efac); }
+                @keyframes ring-breathe {
+                  0%, 100% { opacity: 0.55; transform: scale(1);    }
+                  50%       { opacity: 0.85; transform: scale(1.012); }
                 }
                 @keyframes fill-breathe {
-                  0%, 100% { opacity: 0.40; }
-                  50%       { opacity: 0.70; }
+                  0%, 100% { opacity: 0.5; }
+                  50%       { opacity: 0.8; }
                 }
-                .ring-outer {
+                .ring-inner-el {
                   transform-origin: 280px 280px;
-                  animation: ring-pulse-outer 3.2s ease-in-out infinite;
+                  animation: ring-breathe 3.5s ease-in-out infinite;
                 }
-                .ring-inner {
+                .ring-outer-el {
                   transform-origin: 280px 280px;
-                  animation: ring-pulse-inner 3.2s ease-in-out infinite 0.6s;
+                  animation: ring-breathe 3.5s ease-in-out infinite 0.8s;
                 }
-                .ring-fill {
-                  transform-origin: 280px 280px;
-                  animation: fill-breathe 3.2s ease-in-out infinite 0.3s;
+                .ring-fill-el {
+                  animation: fill-breathe 3.5s ease-in-out infinite 0.4s;
                 }
               `}</style>
               <svg
@@ -163,33 +156,27 @@ export default function HeroSection() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="absolute"
               >
-                <defs>
-                  {/* Inner ring — rich green gradient */}
-                  <linearGradient id="innerRingGrad" x1="0" y1="0" x2="560" y2="560" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%"   stopColor="#16a34a" stopOpacity="1"   />
-                    <stop offset="40%"  stopColor="#22c55e" stopOpacity="0.9" />
-                    <stop offset="70%"  stopColor="#4ade80" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#86efac" stopOpacity="0.4" />
-                  </linearGradient>
-                  {/* Outer ring — very faint green gradient */}
-                  <linearGradient id="outerRingGrad" x1="0" y1="0" x2="560" y2="560" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%"   stopColor="#bbf7d0" stopOpacity="0.6" />
-                    <stop offset="50%"  stopColor="#dcfce7" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#f0fdf4" stopOpacity="0.2" />
-                  </linearGradient>
-                  {/* Fill gradient */}
-                  <radialGradient id="fillGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%"   stopColor="#dcfce7" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#f0fdf4" stopOpacity="0.1" />
-                  </radialGradient>
-                </defs>
-
-                {/* Soft radial fill */}
-                <circle className="ring-fill" cx="280" cy="280" r="200" fill="url(#fillGrad)" />
-                {/* Inner ring — vivid green gradient stroke */}
-                <circle className="ring-inner" cx="280" cy="280" r="200" stroke="url(#innerRingGrad)" strokeWidth="2.5" />
-                {/* Outer ring — faint green gradient stroke */}
-                <circle className="ring-outer" cx="280" cy="280" r="268" stroke="url(#outerRingGrad)" strokeWidth="1.2" />
+                {/* Soft green fill inside inner ring */}
+                <circle
+                  className="ring-fill-el"
+                  cx="280" cy="280" r="202"
+                  fill="#dcfce7"
+                />
+                {/* Inner ring — clean light-green stroke */}
+                <circle
+                  className="ring-inner-el"
+                  cx="280" cy="280" r="202"
+                  stroke="#86efac"
+                  strokeWidth="1.5"
+                />
+                {/* Outer ring — even lighter, very faint */}
+                <circle
+                  className="ring-outer-el"
+                  cx="280" cy="280" r="270"
+                  stroke="#bbf7d0"
+                  strokeWidth="1"
+                  opacity="0.6"
+                />
               </svg>
             </div>
 
