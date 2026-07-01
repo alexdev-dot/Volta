@@ -122,11 +122,39 @@ export default function HeroSection() {
           {/* ── Right: phone + floating cards ── */}
           <div className="flex-1 flex justify-center items-center relative min-h-[500px] w-full max-w-[520px] lg:max-w-none">
 
-            {/* Two concentric rings behind phone */}
+            {/* Two concentric glowing rings behind phone */}
             <div
               className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
               aria-hidden
             >
+              <style>{`
+                @keyframes ring-pulse-outer {
+                  0%   { opacity: 0.35; transform: scale(0.97); filter: drop-shadow(0 0 0px #86efac); }
+                  50%  { opacity: 0.80; transform: scale(1.02); filter: drop-shadow(0 0 12px #4ade80); }
+                  100% { opacity: 0.35; transform: scale(0.97); filter: drop-shadow(0 0 0px #86efac); }
+                }
+                @keyframes ring-pulse-inner {
+                  0%   { opacity: 0.50; transform: scale(0.98); filter: drop-shadow(0 0 0px #86efac); }
+                  50%  { opacity: 1.00; transform: scale(1.03); filter: drop-shadow(0 0 16px #22c55e); }
+                  100% { opacity: 0.50; transform: scale(0.98); filter: drop-shadow(0 0 0px #86efac); }
+                }
+                @keyframes fill-breathe {
+                  0%, 100% { opacity: 0.40; }
+                  50%       { opacity: 0.70; }
+                }
+                .ring-outer {
+                  transform-origin: 280px 280px;
+                  animation: ring-pulse-outer 3.2s ease-in-out infinite;
+                }
+                .ring-inner {
+                  transform-origin: 280px 280px;
+                  animation: ring-pulse-inner 3.2s ease-in-out infinite 0.6s;
+                }
+                .ring-fill {
+                  transform-origin: 280px 280px;
+                  animation: fill-breathe 3.2s ease-in-out infinite 0.3s;
+                }
+              `}</style>
               <svg
                 width="560"
                 height="560"
@@ -135,32 +163,12 @@ export default function HeroSection() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="absolute"
               >
-                {/* Outer ring */}
-                <circle
-                  cx="280"
-                  cy="280"
-                  r="268"
-                  stroke="#bbf7d0"
-                  strokeWidth="1.5"
-                  opacity="0.7"
-                />
-                {/* Inner ring */}
-                <circle
-                  cx="280"
-                  cy="280"
-                  r="200"
-                  stroke="#bbf7d0"
-                  strokeWidth="1.5"
-                  opacity="0.9"
-                />
                 {/* Soft green fill inside inner ring */}
-                <circle
-                  cx="280"
-                  cy="280"
-                  r="200"
-                  fill="#f0fdf4"
-                  opacity="0.6"
-                />
+                <circle className="ring-fill" cx="280" cy="280" r="200" fill="#f0fdf4" />
+                {/* Inner ring */}
+                <circle className="ring-inner" cx="280" cy="280" r="200" stroke="#4ade80" strokeWidth="1.5" />
+                {/* Outer ring */}
+                <circle className="ring-outer" cx="280" cy="280" r="268" stroke="#86efac" strokeWidth="1.5" />
               </svg>
             </div>
 
