@@ -134,17 +134,20 @@ export default function PhoneMockup() {
     <div className="relative w-[240px] mx-auto">
       {/* Phone shell */}
       <div className="bg-gray-900 rounded-[2.8rem] p-[7px] shadow-2xl shadow-gray-400/40">
-        <div className="bg-white rounded-[2.3rem] overflow-hidden" style={{ height: 520 }}>
-
+        {/* Inner screen — flex column so bottom nav sits flush */}
+        <div
+          className="bg-white rounded-[2.3rem] overflow-hidden flex flex-col"
+          style={{ height: 540 }}
+        >
           {/* ── Status bar ── */}
-          <div className="flex items-center justify-between px-5 pt-3 pb-1 bg-white">
+          <div className="flex items-center justify-between px-5 pt-3 pb-1 bg-white flex-shrink-0">
             <span className="text-[10px] font-bold text-gray-900">9:41</span>
             <div className="flex items-center gap-1">
               {/* Signal bars */}
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                <rect x="0" y="6" width="2.5" height="4" rx="0.5" fill="#111827" />
-                <rect x="3.5" y="4" width="2.5" height="6" rx="0.5" fill="#111827" />
-                <rect x="7" y="2" width="2.5" height="8" rx="0.5" fill="#111827" />
+                <rect x="0"    y="6" width="2.5" height="4"  rx="0.5" fill="#111827" />
+                <rect x="3.5"  y="4" width="2.5" height="6"  rx="0.5" fill="#111827" />
+                <rect x="7"    y="2" width="2.5" height="8"  rx="0.5" fill="#111827" />
                 <rect x="10.5" y="0" width="2.5" height="10" rx="0.5" fill="#111827" />
               </svg>
               {/* Wifi */}
@@ -163,7 +166,7 @@ export default function PhoneMockup() {
           </div>
 
           {/* ── App header ── */}
-          <div className="flex items-center justify-between px-3 pb-2">
+          <div className="flex items-center justify-between px-3 pb-2 flex-shrink-0">
             <Menu className="w-4 h-4 text-gray-700" />
             <img src={logoImage} alt="VOLTA" className="h-5 w-auto" />
             <div className="relative">
@@ -173,16 +176,16 @@ export default function PhoneMockup() {
           </div>
 
           {/* ── Location ── */}
-          <div className="flex items-center gap-1 px-3 pb-2">
+          <div className="flex items-center gap-1 px-3 pb-2 flex-shrink-0">
             <MapPin className="w-3 h-3 text-green-600 flex-shrink-0" />
             <span className="text-[10px] font-semibold text-gray-800">Ruiru, Kiambu County</span>
             <ChevronDown className="w-3 h-3 text-gray-500" />
           </div>
 
-          {/* Scrollable content */}
+          {/* Scrollable content — flex-1 fills remaining space above bottom nav */}
           <div
-            className="overflow-y-auto"
-            style={{ height: 430, scrollbarWidth: "none" }}
+            className="overflow-y-auto flex-1"
+            style={{ scrollbarWidth: "none" }}
           >
             {/* ── Search bar ── */}
             <div className="flex items-center gap-2 mx-3 mb-3">
@@ -320,36 +323,43 @@ export default function PhoneMockup() {
           </div>
 
           {/* ── Bottom nav ── */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex items-center justify-around px-2 py-2">
-            {[
-              { Icon: Home,           label: "Home",         active: true,  badge: 0 },
-              { Icon: Search,         label: "Find Services",active: false, badge: 0 },
-              { Icon: CalendarDays,   label: "My Bookings",  active: false, badge: 2 },
-              { Icon: MessageSquare,  label: "Chats",        active: false, badge: 0 },
-              { Icon: User,           label: "Profile",      active: false, badge: 0 },
-            ].map(({ Icon, label, active, badge }) => (
-              <div key={label} className="flex flex-col items-center gap-0.5 relative">
-                <div className="relative">
-                  <Icon
-                    className={`w-4 h-4 ${active ? "text-green-600" : "text-gray-400"}`}
-                    strokeWidth={active ? 2.5 : 1.8}
-                  />
-                  {badge > 0 && (
-                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-600 rounded-full text-white text-[6px] font-bold flex items-center justify-center">
-                      {badge}
-                    </span>
-                  )}
+          <div className="flex-shrink-0 bg-white border-t border-gray-100">
+            <div className="flex items-center justify-around px-2 pt-2 pb-1">
+              {[
+                { Icon: Home,          label: "Home",         active: true,  badge: 0 },
+                { Icon: Search,        label: "Find Services",active: false, badge: 0 },
+                { Icon: CalendarDays,  label: "My Bookings",  active: false, badge: 2 },
+                { Icon: MessageSquare, label: "Chats",        active: false, badge: 0 },
+                { Icon: User,          label: "Profile",      active: false, badge: 0 },
+              ].map(({ Icon, label, active, badge }) => (
+                <div key={label} className="flex flex-col items-center gap-0.5 relative">
+                  <div className="relative">
+                    <Icon
+                      className={`w-4 h-4 ${active ? "text-green-600" : "text-gray-400"}`}
+                      strokeWidth={active ? 2.5 : 1.8}
+                    />
+                    {badge > 0 && (
+                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-600 rounded-full text-white text-[6px] font-bold flex items-center justify-center">
+                        {badge}
+                      </span>
+                    )}
+                  </div>
+                  <span className={`text-[6px] font-medium leading-none ${active ? "text-green-600" : "text-gray-400"}`}>
+                    {label}
+                  </span>
                 </div>
-                <span className={`text-[6px] font-medium leading-none ${active ? "text-green-600" : "text-gray-400"}`}>
-                  {label}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
+            {/* Home indicator bar */}
+            <div className="flex justify-center pb-2 pt-1">
+              <div className="w-16 h-1 bg-gray-900 rounded-full opacity-20" />
+            </div>
           </div>
+
         </div>
       </div>
 
-      {/* Dynamic island / notch */}
+      {/* Dynamic island */}
       <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-5 bg-gray-900 rounded-full z-10" />
     </div>
   );
