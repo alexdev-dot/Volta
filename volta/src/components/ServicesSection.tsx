@@ -1,90 +1,108 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Droplets, Zap, Hammer, Sparkles, Building2, Settings2 } from "lucide-react";
+import { Link } from "wouter";
 
 const services = [
   {
     name: "Plumbing",
     desc: "Fix leaks, pipes & more",
-    icon: "🔧",
-    bg: "bg-blue-50",
+    icon: Droplets,
+    bg: "bg-blue-50 hover:bg-blue-100",
     iconBg: "bg-blue-100",
-    textColor: "text-blue-600",
+    iconColor: "text-blue-600",
+    nameColor: "text-blue-700",
   },
   {
     name: "Electrical",
     desc: "Power issues? We've got you",
-    icon: "⚡",
-    bg: "bg-yellow-50",
+    icon: Zap,
+    bg: "bg-yellow-50 hover:bg-yellow-100",
     iconBg: "bg-yellow-100",
-    textColor: "text-yellow-600",
+    iconColor: "text-yellow-600",
+    nameColor: "text-yellow-700",
   },
   {
     name: "Carpentry",
     desc: "Furniture, doors & woodwork",
-    icon: "🪚",
-    bg: "bg-orange-50",
+    icon: Hammer,
+    bg: "bg-orange-50 hover:bg-orange-100",
     iconBg: "bg-orange-100",
-    textColor: "text-orange-600",
+    iconColor: "text-orange-600",
+    nameColor: "text-orange-700",
   },
   {
     name: "Cleaning",
     desc: "Home or office cleaning",
-    icon: "🧹",
-    bg: "bg-purple-50",
+    icon: Sparkles,
+    bg: "bg-purple-50 hover:bg-purple-100",
     iconBg: "bg-purple-100",
-    textColor: "text-purple-600",
+    iconColor: "text-purple-600",
+    nameColor: "text-purple-700",
   },
   {
     name: "Construction",
     desc: "Building & renovation",
-    icon: "🏗️",
-    bg: "bg-gray-50",
-    iconBg: "bg-gray-200",
-    textColor: "text-gray-600",
+    icon: Building2,
+    bg: "bg-slate-50 hover:bg-slate-100",
+    iconBg: "bg-slate-200",
+    iconColor: "text-slate-600",
+    nameColor: "text-slate-700",
   },
   {
     name: "Mechanics",
     desc: "Car repairs & maintenance",
-    icon: "🔩",
-    bg: "bg-red-50",
+    icon: Settings2,
+    bg: "bg-red-50 hover:bg-red-100",
     iconBg: "bg-red-100",
-    textColor: "text-red-600",
+    iconColor: "text-red-600",
+    nameColor: "text-red-700",
   },
 ];
 
 export default function ServicesSection() {
   return (
-    <section className="py-12 bg-white">
+    <section id="services" className="py-14 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Label */}
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.15em] mb-2">
           Popular Services
         </p>
-        {/* Heading */}
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
-          Services for <span className="text-green-600">Every Need</span>
-        </h2>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-          {services.map((service) => (
-            <div
-              key={service.name}
-              className={`${service.bg} rounded-xl p-4 cursor-pointer hover:shadow-md transition-shadow`}
-            >
-              <div className={`${service.iconBg} w-11 h-11 rounded-xl flex items-center justify-center mb-3`}>
-                <span className="text-2xl">{service.icon}</span>
-              </div>
-              <p className={`font-bold text-sm ${service.textColor} mb-1`}>{service.name}</p>
-              <p className="text-gray-500 text-xs leading-snug">{service.desc}</p>
-            </div>
-          ))}
+        {/* Heading */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-8">
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Services for{" "}
+            <span className="text-green-600">Every Need</span>
+          </h2>
         </div>
 
-        {/* View all */}
+        {/* Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-7">
+          {services.map((service) => {
+            const Icon = service.icon;
+            return (
+              <button
+                key={service.name}
+                className={`${service.bg} rounded-2xl p-4 text-left cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500`}
+              >
+                <div
+                  className={`${service.iconBg} w-12 h-12 rounded-xl flex items-center justify-center mb-3`}
+                >
+                  <Icon className={`w-6 h-6 ${service.iconColor}`} strokeWidth={1.8} />
+                </div>
+                <p className={`font-bold text-sm ${service.nameColor} mb-1`}>{service.name}</p>
+                <p className="text-gray-500 text-xs leading-snug">{service.desc}</p>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* View all CTA */}
         <div className="flex justify-center">
-          <button className="flex items-center gap-2 border border-gray-300 text-gray-700 font-semibold text-sm px-6 py-2.5 rounded-lg hover:border-gray-400 transition-colors">
-            View All Services <ArrowRight className="w-4 h-4" />
-          </button>
+          <Link href="/customer/services">
+            <button className="inline-flex items-center gap-2 border border-gray-300 hover:border-green-500 hover:text-green-600 text-gray-700 font-semibold text-sm px-6 py-2.5 rounded-xl transition-colors hover:bg-green-50">
+              View All Services <ArrowRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
       </div>
     </section>
