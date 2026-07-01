@@ -307,25 +307,32 @@ export default function FindServicesPage() {
             </div>
           </div>
 
-          {/* ─── CENTER: Real Map Image ─── */}
+          {/* ─── CENTER: Real Map Image — full bleed ─── */}
           <div className="col-span-12 lg:col-span-5">
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm sticky top-4">
-              {/* Map header */}
-              <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-                <div>
-                  <h2 className="text-sm font-extrabold text-gray-900">Map View</h2>
-                  <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
-                    <MapPin className="w-3 h-3 text-green-500" /> in Ruiru, Kiambu
-                  </p>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-gray-500 bg-green-50 border border-green-200 rounded-full px-3 py-1.5 font-semibold">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
-                  Live
-                </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-md border border-gray-200 sticky top-4" style={{ height: 560 }}>
+              {/* Map image — covers entire section */}
+              <img
+                src={mapImg}
+                alt="Map view of service providers in Ruiru, Kiambu"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+
+              {/* Top-left: title + location overlay */}
+              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-md">
+                <h2 className="text-sm font-extrabold text-gray-900">Map View</h2>
+                <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                  <MapPin className="w-3 h-3 text-green-500" /> Ruiru, Kiambu
+                </p>
               </div>
 
-              {/* Legend */}
-              <div className="flex items-center gap-5 px-5 py-2.5 bg-gray-50 border-b border-gray-100">
+              {/* Top-right: Live badge */}
+              <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm border border-green-200 rounded-full px-3 py-1.5 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-xs font-bold text-green-700">Live</span>
+              </div>
+
+              {/* Bottom-left: legend overlay */}
+              <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-md flex items-center gap-4">
                 {[
                   { color: "bg-green-600",  label: "Cleaning" },
                   { color: "bg-blue-500",   label: "Plumbing" },
@@ -333,25 +340,17 @@ export default function FindServicesPage() {
                 ].map(item => (
                   <div key={item.label} className="flex items-center gap-1.5">
                     <span className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
-                    <span className="text-xs text-gray-600 font-medium">{item.label}</span>
+                    <span className="text-xs text-gray-700 font-semibold">{item.label}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Map image */}
-              <div className="relative overflow-hidden" style={{ height: 420 }}>
-                <img
-                  src={mapImg}
-                  alt="Map view of service providers in Ruiru, Kiambu"
-                  className="w-full h-full object-cover object-center"
-                />
-                {/* Expand button overlay */}
-                <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-200">
-                  <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                  </svg>
-                </button>
-              </div>
+              {/* Bottom-right: expand button */}
+              <button className="absolute bottom-4 right-4 w-9 h-9 bg-white/90 backdrop-blur-sm rounded-xl shadow-md flex items-center justify-center hover:bg-white transition-colors border border-gray-200">
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+              </button>
             </div>
           </div>
 
