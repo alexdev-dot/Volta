@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight, Star, ArrowUp, Briefcase, CheckSquare, DollarSign, User, FolderOpen, FileText } from "lucide-react";
+import { ChevronRight, Star, ArrowUp, Briefcase, CheckSquare, DollarSign, User, FolderOpen, FileText } from "lucide-react";
 import { Link } from "wouter";
 import ProNav from "@/components/ProNav";
 

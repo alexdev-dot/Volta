@@ -1,7 +1,6 @@
-import { Search, MapPin, Bell, ChevronDown, CheckCircle, Shield, Headphones, Star, ArrowRight, Plus, ChevronRight, Lock, Phone } from "lucide-react";
+import { Search, MapPin, ChevronDown, CheckCircle, Shield, Headphones, Star, ArrowRight, Plus, ChevronRight, Lock, Phone } from "lucide-react";
 import { Link } from "wouter";
-
-const NAV_LINKS = ["Home", "Find Services", "Bookings", "Chats", "My Job", "Payments"];
+import CustomerNav from "@/components/CustomerNav";
 
 const SERVICES = [
   { name: "Plumbing", desc: "Fix leaks, pipes & more", icon: "🔧", bg: "bg-blue-50", iconBg: "bg-blue-100" },
@@ -33,51 +32,7 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Top Nav */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-screen-xl mx-auto px-4 flex items-center justify-between h-14">
-          <div className="flex items-center gap-8">
-            <Link href="/">
-              <div className="flex items-center gap-2 cursor-pointer flex-shrink-0">
-                <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xs">GF</span>
-                </div>
-                <span className="text-gray-900 font-bold text-lg">GigaFix</span>
-              </div>
-            </Link>
-            <nav className="hidden lg:flex items-center gap-6">
-              <a href="#" className="text-sm font-semibold text-gray-900 border-b-2 border-green-600 pb-0.5">Home</a>
-              {["Find Services", "Bookings", "Chats", "My Job", "Payments"].map((l) => (
-                <a key={l} href="#" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">{l}</a>
-              ))}
-              <button className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800 transition-colors">
-                Professionals <ChevronDown className="w-3.5 h-3.5" />
-              </button>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="hidden md:flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 rounded-full px-3 py-1.5 hover:border-gray-300 transition-colors">
-              <MapPin className="w-3.5 h-3.5 text-green-600" />
-              <span className="truncate max-w-[120px]">{location}</span>
-              <ChevronDown className="w-3.5 h-3.5" />
-            </button>
-            <button className="relative p-2">
-              <Bell className="w-5 h-5 text-gray-500" />
-              <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
-            </button>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">{firstName[0]?.toUpperCase()}</span>
-              </div>
-              <div className="hidden md:block text-left">
-                <p className="text-xs font-semibold text-gray-900 leading-none">{firstName} Test</p>
-                <p className="text-[10px] text-gray-400 leading-none mt-0.5">Customer</p>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 hidden md:block" />
-            </div>
-          </div>
-        </div>
-      </header>
+      <CustomerNav active="Home" />
 
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         <div className="flex gap-6">
