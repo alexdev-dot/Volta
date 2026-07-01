@@ -1,5 +1,5 @@
 import { User, Phone, MapPin, FileText, Briefcase, CreditCard, Camera, ArrowRight, ChevronDown } from "lucide-react";
-import type { OnboardingData } from "@/pages/ProfessionalOnboarding";
+import type { OnboardingData } from "@/pages/pro/ProfessionalOnboarding";
 
 const locations = [
   "Nairobi, Kenya",

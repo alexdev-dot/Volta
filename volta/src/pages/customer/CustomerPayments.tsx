@@ -103,7 +103,7 @@ export default function CustomerPayments() {
 
               <div className="p-5">
                 {/* Summary stats */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                   {[
                     { icon: <ArrowUpRight className="w-5 h-5 text-red-500" />, iconBg: "bg-red-50", label: "Total Spent", value: "KSh 45,680", sub: "All time spending" },
                     { icon: <ArrowDownLeft className="w-5 h-5 text-green-600" />, iconBg: "bg-green-50", label: "Total Refunds", value: "KSh 1,200", sub: "All time refunds" },

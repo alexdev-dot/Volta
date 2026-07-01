@@ -1,14 +1,20 @@
 import { ArrowRight, ArrowLeft, X, Plus } from "lucide-react";
 import { useState } from "react";
-import type { OnboardingData } from "@/pages/ProfessionalOnboarding";
+import type { OnboardingData } from "@/pages/pro/ProfessionalOnboarding";
+import plumbingIcon from "../../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../../assets/logo/services-icon/mop.png";
+import constructionIcon from "../../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../../assets/logo/services-icon/mechanics.png";
 
 const SERVICE_CATEGORIES = [
-  { id: "plumbing", name: "Plumbing", icon: "🔧", color: "bg-blue-50 border-blue-200 text-blue-700", activeColor: "bg-blue-600 border-blue-600 text-white" },
-  { id: "electrical", name: "Electrical", icon: "⚡", color: "bg-yellow-50 border-yellow-200 text-yellow-700", activeColor: "bg-yellow-500 border-yellow-500 text-white" },
-  { id: "carpentry", name: "Carpentry", icon: "🪚", color: "bg-orange-50 border-orange-200 text-orange-700", activeColor: "bg-orange-600 border-orange-600 text-white" },
-  { id: "cleaning", name: "Cleaning", icon: "🧹", color: "bg-purple-50 border-purple-200 text-purple-700", activeColor: "bg-purple-600 border-purple-600 text-white" },
-  { id: "construction", name: "Construction", icon: "🏗️", color: "bg-gray-50 border-gray-200 text-gray-700", activeColor: "bg-gray-700 border-gray-700 text-white" },
-  { id: "mechanics", name: "Mechanics", icon: "🔩", color: "bg-red-50 border-red-200 text-red-700", activeColor: "bg-red-600 border-red-600 text-white" },
+  { id: "plumbing", name: "Plumbing", icon: plumbingIcon, color: "bg-blue-50 border-blue-200 text-blue-700", activeColor: "bg-blue-600 border-blue-600 text-white" },
+  { id: "electrical", name: "Electrical", icon: electricalIcon, color: "bg-yellow-50 border-yellow-200 text-yellow-700", activeColor: "bg-yellow-500 border-yellow-500 text-white" },
+  { id: "carpentry", name: "Carpentry", icon: carpentryIcon, color: "bg-orange-50 border-orange-200 text-orange-700", activeColor: "bg-orange-600 border-orange-600 text-white" },
+  { id: "cleaning", name: "Cleaning", icon: cleaningIcon, color: "bg-purple-50 border-purple-200 text-purple-700", activeColor: "bg-purple-600 border-purple-600 text-white" },
+  { id: "construction", name: "Construction", icon: constructionIcon, color: "bg-gray-50 border-gray-200 text-gray-700", activeColor: "bg-gray-700 border-gray-700 text-white" },
+  { id: "mechanics", name: "Mechanics", icon: mechanicsIcon, color: "bg-red-50 border-red-200 text-red-700", activeColor: "bg-red-600 border-red-600 text-white" },
   { id: "painting", name: "Painting", icon: "🖌️", color: "bg-pink-50 border-pink-200 text-pink-700", activeColor: "bg-pink-600 border-pink-600 text-white" },
   { id: "landscaping", name: "Landscaping", icon: "🌿", color: "bg-green-50 border-green-200 text-green-700", activeColor: "bg-green-600 border-green-600 text-white" },
   { id: "security", name: "Security", icon: "🔒", color: "bg-indigo-50 border-indigo-200 text-indigo-700", activeColor: "bg-indigo-600 border-indigo-600 text-white" },
@@ -98,7 +104,11 @@ export default function Step2Skills({ data, onChange, onNext, onBack }: Props) {
                   active ? cat.activeColor : cat.color
                 }`}
               >
-                <span className="text-2xl">{cat.icon}</span>
+                {typeof cat.icon === 'string' ? (
+                  <span className="text-2xl">{cat.icon}</span>
+                ) : (
+                  <img src={cat.icon} alt={cat.name} className="w-8 h-8" />
+                )}
                 <span className="text-xs font-semibold text-center leading-tight">{cat.name}</span>
               </button>
             );

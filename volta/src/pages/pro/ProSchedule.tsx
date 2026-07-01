@@ -74,12 +74,12 @@ export default function ProSchedule() {
 
       <div className="max-w-screen-xl mx-auto px-4 py-6">
         {/* Page header */}
-        <div className="flex items-start justify-between mb-6">
+        <div className="flex flex-wrap items-start justify-between gap-3 mb-6">
           <div>
             <h1 className="text-2xl font-extrabold text-gray-900">My Schedule</h1>
             <p className="text-gray-500 text-sm mt-0.5">Manage your working hours and appointments</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors">
               <Plus className="w-4 h-4" /> Add Availability
             </button>
@@ -90,7 +90,7 @@ export default function ProSchedule() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[
             { icon: CalendarDays, iconBg: "bg-green-50", iconColor: "text-green-600", label: "Today", value: "4", sub: "Appointments" },
             { icon: Clock, iconBg: "bg-orange-50", iconColor: "text-orange-500", label: "Upcoming", value: "7", sub: "Appointments" },
@@ -115,7 +115,7 @@ export default function ProSchedule() {
 
         <div className="flex gap-5">
           {/* Left: Calendar + Filters */}
-          <div className="w-64 flex-shrink-0 flex flex-col gap-4">
+          <div className="hidden lg:flex w-64 flex-shrink-0 flex-col gap-4">
             {/* Mini Calendar */}
             <div className="bg-white rounded-2xl border border-gray-100 p-4">
               <div className="flex items-center justify-between mb-3">

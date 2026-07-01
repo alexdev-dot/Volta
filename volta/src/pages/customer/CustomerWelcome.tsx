@@ -1,13 +1,19 @@
 import { Link } from "wouter";
-import { CheckCircle, Search, Star, ArrowRight, MapPin, Wrench, Zap, Hammer } from "lucide-react";
+import { CheckCircle, Search, Star, ArrowRight, MapPin } from "lucide-react";
+import plumbingIcon from "../../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../../assets/logo/services-icon/mop.png";
+import constructionIcon from "../../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../../assets/logo/services-icon/mechanics.png";
 
 const popularServices = [
-  { name: "Plumbing", icon: "🔧", color: "bg-blue-50 text-blue-600" },
-  { name: "Electrical", icon: "⚡", color: "bg-yellow-50 text-yellow-600" },
-  { name: "Carpentry", icon: "🪚", color: "bg-orange-50 text-orange-600" },
-  { name: "Cleaning", icon: "🧹", color: "bg-purple-50 text-purple-600" },
-  { name: "Construction", icon: "🏗️", color: "bg-gray-50 text-gray-600" },
-  { name: "Mechanics", icon: "🔩", color: "bg-red-50 text-red-600" },
+  { name: "Plumbing", icon: plumbingIcon, color: "bg-blue-50" },
+  { name: "Electrical", icon: electricalIcon, color: "bg-yellow-50" },
+  { name: "Carpentry", icon: carpentryIcon, color: "bg-orange-50" },
+  { name: "Cleaning", icon: cleaningIcon, color: "bg-purple-50" },
+  { name: "Construction", icon: constructionIcon, color: "bg-gray-50" },
+  { name: "Mechanics", icon: mechanicsIcon, color: "bg-red-50" },
 ];
 
 export default function CustomerWelcome() {
@@ -89,7 +95,7 @@ export default function CustomerWelcome() {
                 key={s.name}
                 className={`${s.color} rounded-xl p-4 flex flex-col items-center gap-2 hover:shadow-md transition-shadow cursor-pointer`}
               >
-                <span className="text-2xl">{s.icon}</span>
+                <img src={s.icon} alt={s.name} className="w-8 h-8" />
                 <span className="text-xs font-semibold">{s.name}</span>
               </button>
             ))}

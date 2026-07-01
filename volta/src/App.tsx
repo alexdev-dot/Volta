@@ -1,20 +1,23 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
-import LandingPage from "@/pages/LandingPage";
-import SignInPage from "@/pages/SignInPage";
-import SignUpPage from "@/pages/SignUpPage";
-import ProfessionalOnboarding from "@/pages/ProfessionalOnboarding";
-import CustomerDashboard from "@/pages/CustomerDashboard";
-import CustomerFindServices from "@/pages/CustomerFindServices";
-import CustomerBookings from "@/pages/CustomerBookings";
-import CustomerChats from "@/pages/CustomerChats";
-import CustomerMyJob from "@/pages/CustomerMyJob";
-import CustomerPayments from "@/pages/CustomerPayments";
-import CustomerProfile from "@/pages/CustomerProfile";
-import ProDashboard from "@/pages/ProDashboard";
-import ProSchedule from "@/pages/ProSchedule";
-import ProJobFeed from "@/pages/ProJobFeed";
-import ProReviews from "@/pages/ProReviews";
-import NotFound from "@/pages/not-found";
+import LandingPage from "@/pages/general/LandingPage";
+import SignInPage from "@/pages/auth/SignInPage";
+import SignUpPage from "@/pages/auth/SignUpPage";
+import ProfessionalOnboarding from "@/pages/pro/ProfessionalOnboarding";
+import ForProfessionalsPage from "@/pages/general/ForProfessionals";
+import HowItWorksPage from "@/pages/general/How-it-Works";
+import FindServicesPage from "@/pages/general/FindServices";
+import CustomerDashboard from "@/pages/customer/CustomerDashboard";
+import CustomerFindServices from "@/pages/customer/CustomerFindServices";
+import CustomerBookings from "@/pages/customer/CustomerBookings";
+import CustomerChats from "@/pages/customer/CustomerChats";
+import CustomerMyJob from "@/pages/customer/CustomerMyJob";
+import CustomerPayments from "@/pages/customer/CustomerPayments";
+import CustomerProfile from "@/pages/customer/CustomerProfile";
+import ProDashboard from "@/pages/pro/ProDashboard";
+import ProSchedule from "@/pages/pro/ProSchedule";
+import ProJobFeed from "@/pages/pro/ProJobFeed";
+import ProReviews from "@/pages/pro/ProReviews";
+import NotFound from "@/pages/general/not-found";
 
 function Router() {
   return (
@@ -22,7 +25,11 @@ function Router() {
       <Route path="/" component={LandingPage} />
       <Route path="/sign-in" component={SignInPage} />
       <Route path="/sign-up" component={SignUpPage} />
-      <Route path="/for-professionals" component={ProfessionalOnboarding} />
+      {/* Public pages */}
+      <Route path="/how-it-works" component={HowItWorksPage} />
+      <Route path="/find-services" component={FindServicesPage} />
+      <Route path="/for-professionals" component={ForProfessionalsPage} />
+      <Route path="/pro-onboarding" component={ProfessionalOnboarding} />
       {/* Customer routes */}
       <Route path="/dashboard" component={CustomerDashboard} />
       <Route path="/welcome" component={CustomerDashboard} />

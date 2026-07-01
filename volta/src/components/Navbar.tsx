@@ -1,18 +1,28 @@
 import { useState } from "react";
 import { MapPin, ChevronDown, Menu, X } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import logoImage from "../assets/logo/Primary logo.png";
 
 const navLinks = [
-  { label: "Home", href: "/", active: true },
-  { label: "Find Services", href: "#services" },
-  { label: "How It Works", href: "#how-it-works" },
+  { label: "Home", href: "/" },
+  { label: "Find Services", href: "/find-services" },
+  { label: "How It Works", href: "/how-it-works" },
   { label: "For Professionals", href: "/for-professionals" },
   { label: "About Us", href: "#" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  active?: string;
+}
+
+export default function Navbar({ active }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [location] = useLocation();
+
+  const isActive = (link: { label: string; href: string }) => {
+    if (active) return link.label === active;
+    return location === link.href;
+  };
 
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
@@ -21,7 +31,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center gap-2 flex-shrink-0 cursor-pointer">
-              <img src={logoImage} alt="VOLTA" className="h-8 w-auto" />
+              <img src={logoImage} alt="GigaFix" className="h-8 w-auto" />
             </div>
           </Link>
 
@@ -33,7 +43,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={`text-sm font-medium transition-colors pb-0.5 ${
-                    link.active
+                    isActive(link)
                       ? "text-gray-900 border-b-2 border-green-600"
                       : "text-gray-500 hover:text-gray-900"
                   }`}
@@ -83,7 +93,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   className={`block py-2.5 px-1 text-sm font-medium ${
-                    link.active ? "text-green-600" : "text-gray-600 hover:text-gray-900"
+                    isActive(link) ? "text-green-600" : "text-gray-600 hover:text-gray-900"
                   }`}
                   onClick={() => setMobileOpen(false)}
                 >

@@ -1,96 +1,19 @@
 import { MapPin, ChevronDown, Bell, Menu, Search, Star, Heart, Home, CalendarDays, MessageSquare, User, Shield } from "lucide-react";
 import logoImage from "../assets/logo/Primary logo.png";
-
-/* ── Tiny category SVG icons ── */
-function FaucetIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <path d="M12 4h-2a2 2 0 00-2 2v1H6v2h2v1a2 2 0 002 2h4a2 2 0 002-2V6a2 2 0 00-2-2z" fill="#3B82F6" />
-      <rect x="10" y="10" width="4" height="6" rx="1" fill="#60A5FA" />
-      <path d="M11 16v3" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M9 19h6" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-function BoltIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="#F59E0B" stroke="#D97706" strokeWidth="0.5" />
-    </svg>
-  );
-}
-function HammerIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <rect x="8" y="5" width="10" height="6" rx="1.5" fill="#EA580C" transform="rotate(-30 13 8)" />
-      <rect x="4" y="13" width="3" height="9" rx="1.5" fill="#92400E" transform="rotate(-30 5.5 17.5)" />
-      <path d="M16 4 L20 8" stroke="#C2410C" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-function BrushIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <path d="M14 3L5 12l2 2 9-9-2-2z" fill="#9333EA" />
-      <path d="M5 12l-2 7 2-1 2 1-1-2 1-2-2-3z" fill="#A855F7" />
-      <circle cx="18" cy="6" r="3" stroke="#C4B5FD" strokeWidth="1.5" fill="none" />
-      <circle cx="19" cy="19" r="2" stroke="#DDD6FE" strokeWidth="1" fill="none" />
-      <circle cx="8" cy="20" r="1.5" stroke="#E9D5FF" strokeWidth="1" fill="none" />
-    </svg>
-  );
-}
-function HardHatIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <ellipse cx="12" cy="16" rx="9" ry="2.5" fill="#16A34A" />
-      <path d="M4 16Q4 8 12 7Q20 8 20 16Z" fill="#22C55E" />
-      <rect x="9" y="12" width="6" height="3" rx="1" fill="#15803D" />
-    </svg>
-  );
-}
-function WrenchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <path d="M17 3C19.8 3 22 5.2 22 8c0 1.2-.4 2.3-1.1 3.2L9.2 22.9c-.7.7-1.9.7-2.6 0L4.1 20.4c-.7-.7-.7-1.9 0-2.6L15.8 6.1C14.6 5.4 14 4.3 14 3h3z" fill="#EF4444" />
-      <path d="M4 20l2-2" stroke="#B91C1C" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="5.5" cy="19.5" r="2" fill="#FCA5A5" />
-    </svg>
-  );
-}
-function ApplianceIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <rect x="4" y="3" width="16" height="18" rx="2" fill="#3B82F6" />
-      <circle cx="12" cy="13" r="4" stroke="white" strokeWidth="1.5" fill="none" />
-      <circle cx="12" cy="13" r="2" stroke="#BFDBFE" strokeWidth="1" fill="none" />
-      <rect x="7" y="6" width="4" height="2" rx="1" fill="white" />
-      <circle cx="14" cy="7" r="1" fill="white" />
-      <circle cx="17" cy="7" r="1" fill="white" />
-    </svg>
-  );
-}
-function RollerIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-      <rect x="4" y="4" width="14" height="6" rx="2" fill="#16A34A" />
-      <rect x="3" y="3" width="16" height="8" rx="2" stroke="#15803D" strokeWidth="1" fill="none" />
-      <path d="M14 10v3h2v-3" stroke="#22C55E" strokeWidth="1.5" />
-      <rect x="12" y="13" width="6" height="2" rx="1" fill="#16A34A" />
-      <path d="M15 15v4" stroke="#16A34A" strokeWidth="1.5" strokeLinecap="round" />
-      <rect x="11" y="18" width="8" height="3" rx="1" fill="#4ADE80" />
-    </svg>
-  );
-}
+import plumbingIcon from "../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../assets/logo/services-icon/mop.png";
+import constructionIcon from "../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../assets/logo/services-icon/mechanics.png";
 
 const categories = [
-  { name: "Plumbing",     Icon: FaucetIcon,   bg: "#EFF6FF" },
-  { name: "Electrical",   Icon: BoltIcon,     bg: "#FEFCE8" },
-  { name: "Carpentry",    Icon: HammerIcon,   bg: "#FFF7ED" },
-  { name: "Cleaning",     Icon: BrushIcon,    bg: "#FAF5FF" },
-  { name: "Construction", Icon: HardHatIcon,  bg: "#F0FDF4" },
-  { name: "Mechanics",    Icon: WrenchIcon,   bg: "#FFF1F2" },
-  { name: "Appliances",   Icon: ApplianceIcon,bg: "#EFF6FF" },
-  { name: "Painting",     Icon: RollerIcon,   bg: "#F0FDF4" },
+  { name: "Plumbing",     icon: plumbingIcon,   bg: "#EFF6FF" },
+  { name: "Electrical",   icon: electricalIcon, bg: "#FEFCE8" },
+  { name: "Carpentry",    icon: carpentryIcon,  bg: "#FFF7ED" },
+  { name: "Cleaning",     icon: cleaningIcon,   bg: "#FAF5FF" },
+  { name: "Construction", icon: constructionIcon,bg: "#F0FDF4" },
+  { name: "Mechanics",    icon: mechanicsIcon,  bg: "#FFF1F2" },
 ];
 
 const professionals = [
@@ -245,7 +168,7 @@ export default function PhoneMockup() {
                       className="w-9 h-9 rounded-lg flex items-center justify-center"
                       style={{ backgroundColor: cat.bg }}
                     >
-                      <cat.Icon />
+                      <img src={cat.icon} alt={cat.name} className="w-5 h-5" />
                     </div>
                     <span className="text-[7px] text-gray-700 font-medium text-center leading-tight">{cat.name}</span>
                   </div>

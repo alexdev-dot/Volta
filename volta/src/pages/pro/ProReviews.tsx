@@ -99,7 +99,7 @@ export default function ProReviews() {
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
           {[
             {
               icon: <Star className="w-7 h-7 fill-yellow-400 text-yellow-400" />,

@@ -39,7 +39,7 @@ export default function CustomerProfile() {
 
         <div className="flex gap-5">
           {/* Left sidebar */}
-          <div className="w-72 flex-shrink-0">
+          <div className="hidden lg:block w-72 flex-shrink-0">
             <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
               {MENU_ITEMS.map((item) => {
                 const Icon = item.icon;
@@ -89,7 +89,7 @@ export default function CustomerProfile() {
               </div>
 
               {/* Form */}
-              <div className="grid grid-cols-2 gap-4 mb-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1.5">Full Name</label>
                   <input defaultValue={`${firstName} ${lastName}`} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-green-400 transition-colors" />
@@ -114,7 +114,7 @@ export default function CustomerProfile() {
 
             {/* Stats card */}
             <div className="bg-green-800 rounded-2xl p-5 text-white">
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div>
                   <p className="text-xs text-white/60 mb-0.5">Wallet Balance</p>
                   <p className="text-xl font-extrabold">KSh 2,450.00</p>

@@ -102,7 +102,7 @@ export default function ProJobFeed() {
           {/* Main content */}
           <div className="flex-1 min-w-0">
             {/* Summary stats */}
-            <div className="grid grid-cols-4 gap-3 mb-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
               {[
                 { icon: Briefcase, iconBg: "bg-green-50", iconColor: "text-green-600", value: "28", label: "Available Jobs", sub: "Total open jobs" },
                 { icon: Clock, iconBg: "bg-orange-50", iconColor: "text-orange-500", value: "6", label: "New Today", sub: "Jobs posted today" },

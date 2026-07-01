@@ -1,5 +1,5 @@
 import { ArrowLeft, CheckCircle, User, MapPin, Briefcase, Star, DollarSign, Edit2 } from "lucide-react";
-import type { OnboardingData } from "@/pages/ProfessionalOnboarding";
+import type { OnboardingData } from "@/pages/pro/ProfessionalOnboarding";
 
 const SERVICE_ICONS: Record<string, string> = {
   plumbing: "🔧",

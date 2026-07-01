@@ -116,7 +116,7 @@ export default function CustomerBookings() {
           {/* Main */}
           <div className="flex-1 min-w-0">
             {/* Stats */}
-            <div className="grid grid-cols-4 gap-3 mb-5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
               {[
                 { icon: Calendar, iconBg: "bg-green-50", iconColor: "text-green-600", value: "12", label: "Total Bookings" },
                 { icon: Clock, iconBg: "bg-orange-50", iconColor: "text-orange-500", value: "3", label: "Pending" },

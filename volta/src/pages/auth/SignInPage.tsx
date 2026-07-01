@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, CreditCard, CheckCircle, AlertCircle } from "lucide-react";
-import voltaIcon from "../assets/logo/Volta-Icon.png";
+import voltaIcon from "../../assets/logo/Volta-Icon.png";
 
 const features = [
   { icon: Shield, title: "Verified Professionals", desc: "All professionals are background-checked and verified." },

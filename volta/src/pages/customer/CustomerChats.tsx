@@ -1,4 +1,5 @@
-import { Search, CheckCheck, SlidersHorizontal, Paperclip, Smile, Send, CheckCircle, Star, Headphones, ChevronRight, MoreHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Search, CheckCheck, SlidersHorizontal, Paperclip, Smile, Send, CheckCircle, Star, Headphones, ChevronRight, MoreHorizontal, ArrowLeft } from "lucide-react";
 import CustomerNav from "@/components/CustomerNav";
 
 const CONVERSATIONS = [
@@ -66,6 +67,8 @@ const stored = (() => { try { return JSON.parse(localStorage.getItem("volta_user
 const firstName = stored.firstName || "lixek";
 
 export default function CustomerChats() {
+  const [mobilePanel, setMobilePanel] = useState<"list" | "chat">("list");
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <CustomerNav active="Chats" />
@@ -82,9 +85,9 @@ export default function CustomerChats() {
           </div>
         </div>
 
-        <div className="flex gap-0 bg-white rounded-2xl border border-gray-100 overflow-hidden" style={{ height: "600px" }}>
+        <div className="flex gap-0 bg-white rounded-2xl border border-gray-100 overflow-hidden" style={{ height: "calc(100svh - 200px)", minHeight: 480 }}>
           {/* Left: Conversation list */}
-          <div className="w-80 flex-shrink-0 flex flex-col border-r border-gray-100">
+          <div className={`${mobilePanel === "chat" ? "hidden md:flex" : "flex"} w-full md:w-80 md:flex-shrink-0 flex-col border-r border-gray-100`}>
             {/* Search */}
             <div className="p-3 border-b border-gray-50">
               <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2">
@@ -97,7 +100,7 @@ export default function CustomerChats() {
             {/* Conversations */}
             <div className="flex-1 overflow-y-auto">
               {CONVERSATIONS.map((c) => (
-                <div key={c.name} className={`flex items-center gap-3 px-3 py-3.5 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-50 ${c.active ? "bg-green-50" : ""}`}>
+                <div key={c.name} onClick={() => setMobilePanel("chat")} className={`flex items-center gap-3 px-3 py-3.5 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-50 ${c.active ? "bg-green-50" : ""}`}>
                   <div className="relative flex-shrink-0">
                     <img src={c.img} alt={c.name} className="w-11 h-11 rounded-full object-cover" />
                     <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${c.online ? "bg-green-500" : "bg-gray-300"}`} />
@@ -140,12 +143,15 @@ export default function CustomerChats() {
           </div>
 
           {/* Right: Active chat */}
-          <div className="flex-1 flex flex-col">
+          <div className={`${mobilePanel === "list" ? "hidden md:flex" : "flex"} flex-1 flex-col min-w-0`}>
             {/* Chat header */}
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between px-3 md:px-5 py-3.5 border-b border-gray-100">
+              <div className="flex items-center gap-2 md:gap-3">
+                <button onClick={() => setMobilePanel("list")} className="md:hidden p-1.5 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0">
+                  <ArrowLeft className="w-4 h-4 text-gray-600" />
+                </button>
                 <div className="relative">
-                  <img src="https://i.pravatar.cc/48?img=11" alt="John Kamau" className="w-11 h-11 rounded-full object-cover" />
+                  <img src="https://i.pravatar.cc/48?img=11" alt="John Kamau" className="w-10 h-10 md:w-11 md:h-11 rounded-full object-cover" />
                   <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
                 </div>
                 <div>

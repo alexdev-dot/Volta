@@ -1,14 +1,20 @@
 import { Search, MapPin, ChevronDown, CheckCircle, Shield, Headphones, Star, ArrowRight, Plus, ChevronRight, Lock, Phone } from "lucide-react";
 import { Link } from "wouter";
 import CustomerNav from "@/components/CustomerNav";
+import plumbingIcon from "../../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../../assets/logo/services-icon/mop.png";
+import constructionIcon from "../../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../../assets/logo/services-icon/mechanics.png";
 
 const SERVICES = [
-  { name: "Plumbing", desc: "Fix leaks, pipes & more", icon: "🔧", bg: "bg-blue-50", iconBg: "bg-blue-100" },
-  { name: "Electrical", desc: "Wiring, faults & installations", icon: "⚡", bg: "bg-yellow-50", iconBg: "bg-yellow-100" },
-  { name: "Carpentry", desc: "Furniture, doors & woodwork", icon: "🪚", bg: "bg-orange-50", iconBg: "bg-orange-100" },
-  { name: "Cleaning", desc: "Home or office cleaning", icon: "🧹", bg: "bg-purple-50", iconBg: "bg-purple-100" },
-  { name: "Construction", desc: "Building & renovation", icon: "🏗️", bg: "bg-gray-50", iconBg: "bg-gray-200" },
-  { name: "Mechanics", desc: "Car repairs & maintenance", icon: "🔩", bg: "bg-red-50", iconBg: "bg-red-100" },
+  { name: "Plumbing", desc: "Fix leaks, pipes & more", icon: plumbingIcon, bg: "bg-blue-50", iconBg: "bg-blue-100" },
+  { name: "Electrical", desc: "Wiring, faults & installations", icon: electricalIcon, bg: "bg-yellow-50", iconBg: "bg-yellow-100" },
+  { name: "Carpentry", desc: "Furniture, doors & woodwork", icon: carpentryIcon, bg: "bg-orange-50", iconBg: "bg-orange-100" },
+  { name: "Cleaning", desc: "Home or office cleaning", icon: cleaningIcon, bg: "bg-purple-50", iconBg: "bg-purple-100" },
+  { name: "Construction", desc: "Building & renovation", icon: constructionIcon, bg: "bg-gray-50", iconBg: "bg-gray-200" },
+  { name: "Mechanics", desc: "Car repairs & maintenance", icon: mechanicsIcon, bg: "bg-red-50", iconBg: "bg-red-100" },
 ];
 
 const PROS = [
@@ -40,26 +46,28 @@ export default function CustomerDashboard() {
           <div className="flex-1 min-w-0">
             {/* Hero */}
             <div className="relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl overflow-hidden mb-6 border border-green-100">
-              <div className="p-6 pr-56 lg:pr-72 relative z-10">
+              <div className="p-4 sm:p-6 sm:pr-40 md:pr-56 lg:pr-72 relative z-10">
                 <p className="text-gray-600 text-sm font-medium mb-1">Hello, {firstName} 👋</p>
                 <h1 className="text-3xl font-extrabold text-gray-900 leading-tight mb-1">
                   What do you need<br />
                   <span className="text-green-600">help</span> with today?
                 </h1>
                 <p className="text-gray-500 text-sm mb-4">Find trusted professionals for any home service.</p>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <div className="flex-1 flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2.5">
                     <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                    <input type="text" placeholder="Search for services or professionals..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent" />
+                    <input type="text" placeholder="Search for a service..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent min-w-0" />
                   </div>
-                  <div className="flex items-center gap-1.5 bg-white border border-gray-200 rounded-lg px-3 py-2.5">
-                    <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
-                    <span className="text-sm text-gray-600 whitespace-nowrap">Ruiru, Kiambu County</span>
-                    <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                  <div className="flex gap-2">
+                    <div className="hidden sm:flex items-center gap-1.5 bg-white border border-gray-200 rounded-lg px-3 py-2.5 whitespace-nowrap">
+                      <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                      <span className="text-sm text-gray-600">Ruiru, Kiambu</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                    </div>
+                    <button className="bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap">Search</button>
                   </div>
-                  <button className="bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap">Search</button>
                 </div>
-                <div className="flex items-center gap-5 mt-4">
+                <div className="flex flex-wrap items-center gap-3 sm:gap-5 mt-3">
                   {[
                     { icon: Shield, label: "Verified Professionals" },
                     { icon: Lock, label: "Secure Payments" },
@@ -73,7 +81,7 @@ export default function CustomerDashboard() {
                 </div>
               </div>
               {/* Hero image */}
-              <div className="absolute right-0 bottom-0 h-full w-56 lg:w-72 overflow-hidden">
+              <div className="hidden sm:block absolute right-0 bottom-0 h-full w-40 sm:w-56 lg:w-72 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&q=70"
                   alt="professional"
@@ -101,7 +109,7 @@ export default function CustomerDashboard() {
                 {SERVICES.map((s) => (
                   <div key={s.name} className={`${s.bg} rounded-xl p-4 cursor-pointer hover:shadow-md transition-shadow`}>
                     <div className={`${s.iconBg} w-10 h-10 rounded-lg flex items-center justify-center mb-2`}>
-                      <span className="text-xl">{s.icon}</span>
+                      <img src={s.icon} alt={s.name} className="w-6 h-6" />
                     </div>
                     <p className="font-bold text-gray-900 text-sm">{s.name}</p>
                     <p className="text-gray-500 text-xs leading-snug mt-0.5">{s.desc}</p>

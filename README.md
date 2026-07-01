@@ -12,13 +12,22 @@ A React + Vite frontend for a home-services marketplace connecting customers wit
 
 ## Running the app
 
-The workflow `Start application` runs:
-
+Install dependencies:
+```bash
+pnpm install
 ```
-cd volta && PORT=5000 pnpm run dev
+
+Start the development server:
+```bash
+pnpm dev
 ```
 
 The dev server starts on port 5000 and hot-reloads on file changes.
+
+Build for production:
+```bash
+pnpm build
+```
 
 ## Project layout
 
@@ -50,7 +59,3 @@ pnpm-workspace.yaml
 | `/pro/schedule` | Pro schedule |
 | `/pro/jobs` | Pro job feed |
 | `/pro/reviews` | Pro reviews |
-
-## User preferences
-
-- Keep existing project structure and stack — do not migrate or restructure without asking.
