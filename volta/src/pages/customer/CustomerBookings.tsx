@@ -139,13 +139,13 @@ export default function CustomerBookings() {
             </div>
 
             {/* Search + filter */}
-            <div className="flex gap-3 mb-4">
+            <div className="flex flex-col sm:flex-row gap-2 mb-4">
               <div className="flex-1 flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5">
                 <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                <input type="text" placeholder="Search bookings by service, professional or location..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent" />
+                <input type="text" placeholder="Search bookings..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent min-w-0" />
               </div>
-              <div className="relative">
-                <select className="appearance-none border border-gray-200 bg-white rounded-xl text-sm text-gray-600 pl-3 pr-8 py-2.5 outline-none">
+              <div className="relative flex-shrink-0">
+                <select className="appearance-none border border-gray-200 bg-white rounded-xl text-sm text-gray-600 pl-3 pr-8 py-2.5 outline-none w-full sm:w-auto">
                   <option>All Status</option>
                   <option>Scheduled</option>
                   <option>Pending</option>

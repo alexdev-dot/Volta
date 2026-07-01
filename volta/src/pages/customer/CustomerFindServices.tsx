@@ -26,27 +26,37 @@ export default function CustomerFindServices() {
         </div>
 
         {/* Search bar */}
-        <div className="flex gap-3 mb-4">
-          <div className="flex-1 flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 focus-within:border-green-400 transition-colors">
-            <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-            <input type="text" placeholder="Search for services or professionals..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent" />
+        <div className="flex flex-col gap-2 mb-4">
+          {/* Row 1: search + location + search button */}
+          <div className="flex gap-2">
+            <div className="flex-1 flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 focus-within:border-green-400 transition-colors min-w-0">
+              <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <input type="text" placeholder="Search services or professionals..." className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent min-w-0" />
+            </div>
+            <div className="hidden sm:flex items-center gap-1.5 bg-white border border-gray-200 rounded-xl px-3 py-2.5 whitespace-nowrap flex-shrink-0">
+              <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+              <span className="text-sm text-gray-600">Ruiru, Kiambu</span>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            </div>
+            <button className="bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors whitespace-nowrap flex-shrink-0">Search</button>
           </div>
-          <div className="flex items-center gap-1.5 bg-white border border-gray-200 rounded-xl px-3 py-2.5">
-            <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
-            <span className="text-sm text-gray-600 whitespace-nowrap">Ruiru, Kiambu County</span>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-          </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition-colors">Search</button>
-          <button className="flex items-center gap-2 border border-gray-200 bg-white text-gray-700 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-gray-50 transition-colors">
-            <SlidersHorizontal className="w-4 h-4" /> Filters
-          </button>
-          <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white">
-            <button className="px-3 py-2.5 hover:bg-gray-50 transition-colors border-r border-gray-200">
-              <List className="w-4 h-4 text-gray-500" />
+          {/* Row 2: filters + view toggle */}
+          <div className="flex items-center gap-2">
+            <button className="flex items-center gap-2 border border-gray-200 bg-white text-gray-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors">
+              <SlidersHorizontal className="w-4 h-4" /> Filters
             </button>
-            <button className="px-3 py-2.5 bg-green-600 text-white transition-colors">
-              <LayoutGrid className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-1.5 ml-auto text-xs text-gray-500">
+              <MapPin className="w-3.5 h-3.5 text-green-600 sm:hidden" />
+              <span className="sm:hidden text-xs text-gray-500 truncate max-w-[140px]">Ruiru, Kiambu</span>
+            </div>
+            <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden bg-white ml-auto sm:ml-0">
+              <button className="px-3 py-2 hover:bg-gray-50 transition-colors border-r border-gray-200">
+                <List className="w-4 h-4 text-gray-500" />
+              </button>
+              <button className="px-3 py-2 bg-green-600 text-white transition-colors">
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 
