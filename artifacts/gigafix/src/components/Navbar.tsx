@@ -21,7 +21,7 @@ export default function Navbar() {
             <Link href="/" className="text-sm font-medium text-gray-900 border-b-2 border-green-600 pb-0.5">Home</Link>
             <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">Find Services</a>
             <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">How It Works</a>
-            <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Professionals</a>
+            <Link href="/for-professionals" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">For Professionals</Link>
             <a href="#" className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors">About Us</a>
           </nav>
 

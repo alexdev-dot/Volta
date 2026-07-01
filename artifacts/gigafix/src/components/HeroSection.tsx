@@ -1,4 +1,5 @@
 import { CheckCircle, Star, ArrowRight, Shield, MapPin, CreditCard, Headphones } from "lucide-react";
+import { Link } from "wouter";
 import PhoneMockup from "@/components/PhoneMockup";
 
 const avatars = [
@@ -39,9 +40,11 @@ export default function HeroSection() {
               <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
                 Book a Service <ArrowRight className="w-4 h-4" />
               </button>
-              <button className="flex items-center gap-2 border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
-                Become a Pro
-              </button>
+              <Link href="/for-professionals">
+                <button className="flex items-center gap-2 border border-gray-300 hover:border-gray-400 text-gray-700 font-semibold px-6 py-3 rounded-lg transition-colors text-sm">
+                  Become a Pro
+                </button>
+              </Link>
             </div>
 
             {/* Social proof */}
