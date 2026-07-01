@@ -163,12 +163,33 @@ export default function HeroSection() {
                 xmlns="http://www.w3.org/2000/svg"
                 className="absolute"
               >
-                {/* Soft green fill inside inner ring */}
-                <circle className="ring-fill" cx="280" cy="280" r="200" fill="#f0fdf4" />
-                {/* Inner ring */}
-                <circle className="ring-inner" cx="280" cy="280" r="200" stroke="#4ade80" strokeWidth="1.5" />
-                {/* Outer ring */}
-                <circle className="ring-outer" cx="280" cy="280" r="268" stroke="#86efac" strokeWidth="1.5" />
+                <defs>
+                  {/* Inner ring — rich green gradient */}
+                  <linearGradient id="innerRingGrad" x1="0" y1="0" x2="560" y2="560" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%"   stopColor="#16a34a" stopOpacity="1"   />
+                    <stop offset="40%"  stopColor="#22c55e" stopOpacity="0.9" />
+                    <stop offset="70%"  stopColor="#4ade80" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#86efac" stopOpacity="0.4" />
+                  </linearGradient>
+                  {/* Outer ring — very faint green gradient */}
+                  <linearGradient id="outerRingGrad" x1="0" y1="0" x2="560" y2="560" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%"   stopColor="#bbf7d0" stopOpacity="0.6" />
+                    <stop offset="50%"  stopColor="#dcfce7" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#f0fdf4" stopOpacity="0.2" />
+                  </linearGradient>
+                  {/* Fill gradient */}
+                  <radialGradient id="fillGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%"   stopColor="#dcfce7" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#f0fdf4" stopOpacity="0.1" />
+                  </radialGradient>
+                </defs>
+
+                {/* Soft radial fill */}
+                <circle className="ring-fill" cx="280" cy="280" r="200" fill="url(#fillGrad)" />
+                {/* Inner ring — vivid green gradient stroke */}
+                <circle className="ring-inner" cx="280" cy="280" r="200" stroke="url(#innerRingGrad)" strokeWidth="2.5" />
+                {/* Outer ring — faint green gradient stroke */}
+                <circle className="ring-outer" cx="280" cy="280" r="268" stroke="url(#outerRingGrad)" strokeWidth="1.2" />
               </svg>
             </div>
 
