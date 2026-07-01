@@ -59,6 +59,7 @@ export default function SignUpPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const [touched, setTouched] = useState<Partial<Record<keyof FormFields | "agreed", boolean>>>({});
 
   const [fields, setFields] = useState<FormFields>({
@@ -365,6 +366,13 @@ export default function SignUpPage() {
               </label>
               {showError("agreed") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.agreed}</p>}
             </div>
+
+            {/* Auth error */}
+            {authError && (
+              <p className="text-xs text-red-500 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3 flex-shrink-0" />{authError}
+              </p>
+            )}
 
             {/* Submit */}
             <button
