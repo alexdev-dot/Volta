@@ -122,18 +122,46 @@ export default function HeroSection() {
           {/* ── Right: phone + floating cards ── */}
           <div className="flex-1 flex justify-center items-center relative min-h-[500px] w-full max-w-[520px] lg:max-w-none">
 
-            {/* Soft background blob */}
+            {/* Two concentric rings behind phone */}
             <div
               className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
               aria-hidden
             >
-              <div
-                className="w-[360px] h-[360px] rounded-full"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, #dcfce7 0%, #f0fdf4 55%, transparent 75%)",
-                }}
-              />
+              <svg
+                width="560"
+                height="560"
+                viewBox="0 0 560 560"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="absolute"
+              >
+                {/* Outer ring */}
+                <circle
+                  cx="280"
+                  cy="280"
+                  r="268"
+                  stroke="#bbf7d0"
+                  strokeWidth="1.5"
+                  opacity="0.7"
+                />
+                {/* Inner ring */}
+                <circle
+                  cx="280"
+                  cy="280"
+                  r="200"
+                  stroke="#bbf7d0"
+                  strokeWidth="1.5"
+                  opacity="0.9"
+                />
+                {/* Soft green fill inside inner ring */}
+                <circle
+                  cx="280"
+                  cy="280"
+                  r="200"
+                  fill="#f0fdf4"
+                  opacity="0.6"
+                />
+              </svg>
             </div>
 
             {/* Floating feature cards */}
