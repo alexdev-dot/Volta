@@ -1,347 +1,458 @@
 import { useState } from "react";
-import { Search, MapPin, ChevronDown, Star, CheckCircle, ArrowRight, Zap, Wrench, Droplets, Bolt, Wind, Hammer, Leaf, Home } from "lucide-react";
+import {
+  Search, MapPin, Star, CheckCircle, ArrowRight,
+  Wrench, Droplets, Zap, Home, Car, Scissors,
+  SlidersHorizontal, Filter, ChevronDown, Clock, Wifi
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CtaBanner from "@/components/CtaBanner";
+import mapImg from "@/assets/map-view.png";
 
 const CATEGORIES = [
-  { id: "plumbing", label: "Plumbing", color: "bg-blue-500", icon: Droplets },
-  { id: "electrical", label: "Electrical", color: "bg-yellow-500", icon: Bolt },
-  { id: "carpentry", label: "Carpentry", color: "bg-amber-600", icon: Hammer },
-  { id: "cleaning", label: "Cleaning", color: "bg-green-500", icon: Home },
+  { id: "all",        label: "All Services",   icon: Home,     color: "bg-gray-100 text-gray-700", active: "bg-green-600 text-white" },
+  { id: "plumbing",   label: "Plumbing",        icon: Droplets, color: "bg-blue-50 text-blue-700",  active: "bg-blue-600 text-white" },
+  { id: "electrical", label: "Electrical",      icon: Zap,      color: "bg-yellow-50 text-yellow-700", active: "bg-yellow-500 text-white" },
+  { id: "cleaning",   label: "Cleaning",        icon: Home,     color: "bg-green-50 text-green-700",   active: "bg-green-500 text-white" },
+  { id: "mechanic",   label: "Mechanic",        icon: Car,      color: "bg-orange-50 text-orange-700", active: "bg-orange-500 text-white" },
+  { id: "salon",      label: "Salon",           icon: Scissors, color: "bg-pink-50 text-pink-700",     active: "bg-pink-500 text-white" },
+];
+
+const SORT_OPTIONS = [
+  { id: "nearby",  label: "Near Me",         icon: MapPin },
+  { id: "rated",   label: "Top Rated",       icon: Star },
+  { id: "fast",    label: "Fast Response",   icon: Clock },
+  { id: "online",  label: "Online Now",      icon: Wifi },
 ];
 
 const PROS = [
   {
     id: 1,
     name: "Peter Kamau",
-    role: "Plumber",
+    role: "Licensed Plumber",
+    category: "plumbing",
     verified: true,
     rating: 4.9,
-    reviews: 48,
-    distance: "1.2km away",
-    price: "KSh 300",
-    priceLabel: "From KSh 300 hourly",
-    desc: "Fix leaks, pipes, I short-root service, servicer, cassermers and cleaning.",
+    reviews: 148,
+    distance: "0.8 km away",
+    responseTime: "~5 min",
+    price: "KSh 350",
+    unit: "/ hr",
+    desc: "Certified plumber with 8+ years experience. Handles leaks, pipe installations, blocked drains and full bathroom setups.",
     status: "online",
-    category: "plumbing",
     img: "https://i.pravatar.cc/80?img=51",
-    avatars: ["https://i.pravatar.cc/30?img=1","https://i.pravatar.cc/30?img=2","https://i.pravatar.cc/30?img=3"],
-    count: "60+",
+    jobs: 312,
+    badge: "Top Pro",
   },
   {
     id: 2,
     name: "David Mwangi",
     role: "Electrician",
-    verified: true,
-    rating: 4.7,
-    reviews: 98,
-    distance: "1.2km away",
-    price: "KSh 400",
-    priceLabel: "From KSh 400 hourly",
-    desc: "A home cennonments, homer, homeor office cleaning nusictomers and relax...",
-    status: "online",
     category: "electrical",
-    img: "https://i.pravatar.cc/80?img=52",
-    avatars: ["https://i.pravatar.cc/30?img=4","https://i.pravatar.cc/30?img=5","https://i.pravatar.cc/30?img=6"],
-    count: "60+",
-    highlight: "Cleaning",
+    verified: true,
+    rating: 4.8,
+    reviews: 203,
+    distance: "1.4 km away",
+    responseTime: "~10 min",
+    price: "KSh 500",
+    unit: "/ hr",
+    desc: "KPLC-certified electrician. Wiring, solar installations, security systems & emergency fault repairs.",
+    status: "online",
+    img: "https://i.pravatar.cc/80?img=12",
+    jobs: 487,
+    badge: "Verified Expert",
   },
   {
     id: 3,
-    name: "Peter Kamau",
-    role: "Plumber",
-    verified: true,
-    rating: 4.9,
-    reviews: 98,
-    distance: "1.2km away",
-    price: "KSh 400",
-    priceLabel: "From KSh 400 hourly",
-    desc: "Finert sens pipes, aspert, homeor office cleaning nustorners and renovatie...",
-    status: "busy",
+    name: "Grace Njeri",
+    role: "Home Cleaning Pro",
     category: "cleaning",
-    img: "https://i.pravatar.cc/80?img=53",
-    avatars: ["https://i.pravatar.cc/30?img=7","https://i.pravatar.cc/30?img=8","https://i.pravatar.cc/30?img=9"],
-    count: "60+",
-    highlight: "Cleaning",
+    verified: true,
+    rating: 4.7,
+    reviews: 89,
+    distance: "2.1 km away",
+    responseTime: "~20 min",
+    price: "KSh 250",
+    unit: "/ hr",
+    desc: "Professional deep cleaning, move-in/move-out cleaning, and regular home maintenance packages.",
+    status: "busy",
+    img: "https://i.pravatar.cc/80?img=47",
+    jobs: 156,
+    badge: null,
   },
 ];
 
 const NEARBY = [
-  { name: "Peter Kamau", role: "Plumber", rating: 4.9, dist: "away", featured: true, price: "From Khh hourly", img: "https://i.pravatar.cc/60?img=51", verified: true },
-  { name: "David Mwangi", role: "Electrician", rating: 4.7, dist: "4.7k away", featured: false, price: "From KSh 300 mote", img: "https://i.pravatar.cc/60?img=52", verified: true },
-  { name: "Mobile Mechanic", role: "Repairs & mechanic", rating: 4.7, dist: "4.7k away", featured: false, price: "From KSh 300 mote", img: "https://i.pravatar.cc/60?img=53", verified: false },
+  {
+    name: "John Kariuki",
+    role: "Mobile Mechanic",
+    rating: 4.9,
+    reviews: 64,
+    distance: "0.5 km",
+    price: "KSh 400/hr",
+    img: "https://i.pravatar.cc/60?img=33",
+    verified: true,
+    online: true,
+    featured: true,
+  },
+  {
+    name: "Susan Wanjiku",
+    role: "Home Cleaner",
+    rating: 4.7,
+    reviews: 42,
+    distance: "1.2 km",
+    price: "KSh 280/hr",
+    img: "https://i.pravatar.cc/60?img=44",
+    verified: true,
+    online: true,
+    featured: false,
+  },
+  {
+    name: "Brian Odhiambo",
+    role: "Electrician",
+    rating: 4.6,
+    reviews: 31,
+    distance: "1.8 km",
+    price: "KSh 450/hr",
+    img: "https://i.pravatar.cc/60?img=15",
+    verified: true,
+    online: false,
+    featured: false,
+  },
+  {
+    name: "Mary Achieng",
+    role: "Salon & Beauty",
+    rating: 4.8,
+    reviews: 78,
+    distance: "2.3 km",
+    price: "KSh 200/hr",
+    img: "https://i.pravatar.cc/60?img=48",
+    verified: false,
+    online: true,
+    featured: false,
+  },
 ];
 
 const POPULAR = [
-  { icon: Droplets, label: "Emergency Plumber", desc: "Fix piaps, leams and & more", color: "bg-blue-100", iconColor: "text-blue-600" },
-  { icon: Home, label: "Professional Cleaning", desc: "Home issuet you with verified cleaning", color: "bg-green-100", iconColor: "text-green-600" },
-  { icon: Wrench, label: "Mobile Mechanic", desc: "Car repairs & maint a maintenance", color: "bg-orange-100", iconColor: "text-orange-500" },
-  { icon: CheckCircle, label: "Relax & Enjoy", desc: "Sit backhole with the handle the rest", color: "bg-purple-100", iconColor: "text-purple-600" },
+  { icon: Droplets, label: "Emergency Plumber",    desc: "Available 24/7 · Fast response",   color: "bg-blue-50",   iconBg: "bg-blue-100",  iconColor: "text-blue-600",  count: "60+ pros" },
+  { icon: Home,     label: "Home Deep Clean",       desc: "Full house · Move-in/out",          color: "bg-green-50",  iconBg: "bg-green-100", iconColor: "text-green-600", count: "45+ pros" },
+  { icon: Car,      label: "Mobile Mechanic",       desc: "Repairs at your location",          color: "bg-orange-50", iconBg: "bg-orange-100",iconColor: "text-orange-500",count: "30+ pros" },
+  { icon: Zap,      label: "Electrical Faults",     desc: "KPLC certified professionals",      color: "bg-yellow-50", iconBg: "bg-yellow-100",iconColor: "text-yellow-600",count: "55+ pros" },
+  { icon: Wrench,   label: "General Repairs",       desc: "Doors, furniture, fixtures",        color: "bg-purple-50", iconBg: "bg-purple-100",iconColor: "text-purple-600",count: "40+ pros" },
+  { icon: Scissors, label: "Salon at Home",         desc: "Cuts, braids, nails & more",        color: "bg-pink-50",   iconBg: "bg-pink-100",  iconColor: "text-pink-600",  count: "25+ pros" },
 ];
-
-const MAP_PINS = [
-  { x: 38, y: 25, cat: "plumbing" },
-  { x: 55, y: 18, cat: "plumbing" },
-  { x: 70, y: 30, cat: "plumbing" },
-  { x: 62, y: 42, cat: "electrical" },
-  { x: 78, y: 48, cat: "electrical" },
-  { x: 48, y: 52, cat: "electrical" },
-  { x: 30, y: 60, cat: "cleaning" },
-  { x: 58, y: 65, cat: "cleaning" },
-  { x: 42, y: 72, cat: "cleaning" },
-  { x: 68, y: 72, cat: "plumbing" },
-  { x: 25, y: 40, cat: "electrical" },
-];
-
-const SORT_OPTIONS = ["Near Me", "Top Rated", "Price (Low-High)", "Filters"];
-const DISTANCES = ["2km", "5km", "10km"];
 
 export default function FindServicesPage() {
-  const [activeSort, setActiveSort] = useState("Near Me");
-  const [activeDist, setActiveDist] = useState("2km");
-  const [searchVal, setSearchVal] = useState("AC Repair");
-
-  const catColorMap: Record<string, string> = {
-    plumbing: "bg-blue-500",
-    electrical: "bg-yellow-400",
-    cleaning: "bg-purple-500",
-  };
+  const [activeSort, setActiveSort] = useState("nearby");
+  const [activeCat, setActiveCat] = useState("all");
+  const [searchVal, setSearchVal] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-[#f4f6f8] font-sans">
       <Navbar active="Find Services" />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Page title */}
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-5">Find Services</h1>
+      {/* ── Hero Search Bar ── */}
+      <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-5 py-5">
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Search input */}
+            <div className="flex items-center gap-3 flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-100 transition-all">
+              <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
+              <input
+                value={searchVal}
+                onChange={e => setSearchVal(e.target.value)}
+                type="text"
+                placeholder="What service do you need? e.g. Plumbing, Cleaning..."
+                className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent"
+              />
+            </div>
+            {/* Location */}
+            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 min-w-[180px] cursor-pointer hover:border-green-300 transition-colors">
+              <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+              <span className="text-sm text-gray-700 font-medium">Ruiru, Kiambu</span>
+              <ChevronDown className="w-4 h-4 text-gray-400 ml-auto" />
+            </div>
+            <button className="bg-green-600 hover:bg-green-700 active:scale-95 text-white font-bold text-sm px-8 py-3 rounded-2xl transition-all shadow-sm shadow-green-200">
+              Search
+            </button>
+          </div>
 
-        {/* Search bar */}
-        <div className="flex flex-wrap gap-2 mb-6 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
-          <div className="flex items-center gap-2 flex-1 min-w-[160px]">
-            <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
-            <input
-              value={searchVal}
-              onChange={e => setSearchVal(e.target.value)}
-              type="text"
-              placeholder="AC Repair"
-              className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent"
-            />
+          {/* Category chips */}
+          <div className="flex items-center gap-2 mt-4 overflow-x-auto pb-1 scrollbar-none">
+            {CATEGORIES.map(cat => {
+              const Icon = cat.icon;
+              const isActive = activeCat === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCat(cat.id)}
+                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border transition-all flex-shrink-0
+                    ${isActive ? "bg-green-600 text-white border-green-600 shadow-sm" : "bg-white text-gray-600 border-gray-200 hover:border-green-300 hover:text-green-700"}`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  {cat.label}
+                </button>
+              );
+            })}
+            <button className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap border border-gray-200 bg-white text-gray-600 hover:border-green-300 flex-shrink-0 ml-auto">
+              <Filter className="w-3.5 h-3.5" /> Filters
+            </button>
           </div>
-          <div className="flex items-center gap-1.5 border-l border-gray-200 pl-3">
-            {CATEGORIES.map(c => (
-              <button key={c.id} className="flex items-center gap-1.5 text-xs font-semibold text-gray-600 border border-gray-200 rounded-lg px-2.5 py-1.5 hover:border-green-400 hover:text-green-700 transition-colors whitespace-nowrap bg-white">
-                {c.label} <ChevronDown className="w-3 h-3 text-gray-400" />
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center gap-1 border-l border-gray-200 pl-3">
-            {DISTANCES.map(d => (
-              <button
-                key={d}
-                onClick={() => setActiveDist(d)}
-                className={`text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-colors ${activeDist === d ? "bg-green-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
-          <button className="bg-green-600 hover:bg-green-700 text-white font-bold text-sm px-5 py-2 rounded-xl transition-colors">
-            Search
-          </button>
         </div>
+      </div>
 
-        {/* Main layout */}
+      {/* ── Main Layout ── */}
+      <div className="max-w-7xl mx-auto px-5 py-6">
         <div className="grid grid-cols-12 gap-5">
-          {/* LEFT: Sort + Pro list */}
-          <div className="col-span-12 lg:col-span-4">
-            {/* Sort by */}
-            <div className="mb-4">
-              <p className="text-xs font-bold text-gray-500 uppercase mb-2">Sort by</p>
-              <div className="flex flex-col gap-1">
-                {SORT_OPTIONS.map(opt => (
-                  <button
-                    key={opt}
-                    onClick={() => setActiveSort(opt)}
-                    className={`text-left text-sm font-semibold px-3 py-2 rounded-lg transition-colors ${activeSort === opt ? "bg-green-600 text-white" : "text-gray-600 hover:bg-gray-100"}`}
-                  >
-                    {opt}
-                  </button>
-                ))}
+
+          {/* ─── LEFT: Sort + Provider List ─── */}
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
+
+            {/* Sort panel */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm">
+              <div className="flex items-center gap-2 mb-3">
+                <SlidersHorizontal className="w-4 h-4 text-gray-500" />
+                <span className="text-sm font-bold text-gray-700">Sort By</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {SORT_OPTIONS.map(opt => {
+                  const Icon = opt.icon;
+                  const isActive = activeSort === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      onClick={() => setActiveSort(opt.id)}
+                      className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all border
+                        ${isActive ? "bg-green-600 text-white border-green-600 shadow-sm" : "bg-gray-50 text-gray-600 border-gray-100 hover:border-green-300 hover:bg-green-50"}`}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                      {opt.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Available services header */}
-            <div className="mb-3">
-              <h2 className="text-base font-extrabold text-gray-900">Available Services</h2>
-              <p className="text-xs text-gray-500">in Ruiru, Kiambu</p>
+            {/* Results header */}
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-base font-extrabold text-gray-900">Available Services</h2>
+                <p className="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                  <MapPin className="w-3 h-3" /> Ruiru, Kiambu · {PROS.length} providers found
+                </p>
+              </div>
+              <span className="text-xs text-green-600 font-semibold cursor-pointer hover:underline">View all</span>
             </div>
 
-            {/* Pro list */}
-            <div className="space-y-3">
+            {/* Provider cards */}
+            <div className="flex flex-col gap-3">
               {PROS.map((pro, idx) => (
-                <div key={pro.id} className={`bg-white rounded-2xl border p-3 hover:shadow-md transition-shadow cursor-pointer ${idx === 0 ? "border-green-300 ring-1 ring-green-200" : "border-gray-100"}`}>
+                <div
+                  key={pro.id}
+                  className={`bg-white rounded-2xl border p-4 hover:shadow-md cursor-pointer transition-all group
+                    ${idx === 0 ? "border-green-300 ring-1 ring-green-100" : "border-gray-200 hover:border-green-200"}`}
+                >
+                  {/* Top row */}
                   <div className="flex gap-3">
                     <div className="relative flex-shrink-0">
-                      <img src={pro.img} alt={pro.name} className="w-16 h-16 rounded-xl object-cover" />
-                      {pro.verified && (
-                        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
-                          <CheckCircle className="w-3 h-3 text-white fill-white" />
-                        </div>
-                      )}
+                      <img src={pro.img} alt={pro.name} className="w-14 h-14 rounded-xl object-cover" />
+                      {/* Online dot */}
+                      <span className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${pro.status === "online" ? "bg-green-500" : "bg-orange-400"}`} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start justify-between">
                         <div>
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="text-sm font-bold text-gray-900">{pro.name}</span>
-                            <div className="flex items-center gap-0.5">
-                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                              <span className="text-xs font-semibold text-gray-700">{pro.rating}</span>
-                              <span className="text-xs text-gray-400">({pro.reviews})</span>
-                            </div>
+                            {pro.verified && <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-green-100 flex-shrink-0" />}
+                            {pro.badge && (
+                              <span className="text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                                {pro.badge}
+                              </span>
+                            )}
                           </div>
-                          <p className="text-xs text-gray-500">{pro.role}</p>
-                          <p className="text-xs text-gray-400">{pro.distance}</p>
+                          <p className="text-xs text-gray-500 font-medium">{pro.role}</p>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-sm font-extrabold text-green-700">{pro.price}<span className="text-xs font-normal text-gray-400">{pro.unit}</span></p>
                         </div>
                       </div>
-                      {pro.highlight && (
-                        <span className="inline-block text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5 mt-1 mb-1">
-                          {pro.highlight}
-                        </span>
-                      )}
-                      <p className="text-[11px] text-gray-500 leading-relaxed mt-1 line-clamp-2">{pro.desc}</p>
+                      <div className="flex items-center gap-3 mt-1.5">
+                        <div className="flex items-center gap-0.5">
+                          <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                          <span className="text-xs font-bold text-gray-800">{pro.rating}</span>
+                          <span className="text-xs text-gray-400">({pro.reviews})</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-gray-400">
+                          <MapPin className="w-3 h-3" />{pro.distance}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-gray-400">
+                          <Clock className="w-3 h-3" />{pro.responseTime}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-gray-100">
-                    <div className="flex items-center gap-1">
-                      <div className="flex -space-x-1">
-                        {pro.avatars.map((a, i) => (
-                          <img key={i} src={a} alt="" className="w-5 h-5 rounded-full border-2 border-white object-cover" />
-                        ))}
-                      </div>
-                      <span className="text-[10px] text-gray-400 font-semibold">{pro.count}</span>
-                    </div>
-                    <span className="text-xs font-bold text-green-700">{pro.priceLabel}</span>
+
+                  {/* Description */}
+                  <p className="text-xs text-gray-500 leading-relaxed mt-3 line-clamp-2">{pro.desc}</p>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                    <span className="text-xs text-gray-400">{pro.jobs} jobs completed</span>
+                    <button className="text-xs font-bold text-white bg-green-600 hover:bg-green-700 px-4 py-1.5 rounded-lg transition-colors">
+                      Book Now
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* CENTER: Map */}
+          {/* ─── CENTER: Real Map Image ─── */}
           <div className="col-span-12 lg:col-span-5">
-            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm h-full">
-              <div className="px-4 py-3 border-b border-gray-100">
-                <h2 className="text-sm font-bold text-gray-900">Map View</h2>
-                <p className="text-xs text-gray-500">in Ruiru, Kiambu</p>
+            <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm sticky top-4">
+              {/* Map header */}
+              <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+                <div>
+                  <h2 className="text-sm font-extrabold text-gray-900">Map View</h2>
+                  <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                    <MapPin className="w-3 h-3 text-green-500" /> in Ruiru, Kiambu
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-gray-500 bg-green-50 border border-green-200 rounded-full px-3 py-1.5 font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse inline-block" />
+                  Live
+                </div>
               </div>
-              {/* Map legend */}
-              <div className="flex items-center gap-4 px-4 py-2.5 border-b border-gray-100 bg-gray-50">
-                {[["bg-blue-500","Plumbing"],["bg-yellow-400","Electrical"],["bg-purple-500","Cleaning"]].map(([color, label]) => (
-                  <div key={label} className="flex items-center gap-1.5">
-                    <div className={`w-2.5 h-2.5 rounded-full ${color}`} />
-                    <span className="text-xs text-gray-600">{label}</span>
+
+              {/* Legend */}
+              <div className="flex items-center gap-5 px-5 py-2.5 bg-gray-50 border-b border-gray-100">
+                {[
+                  { color: "bg-green-600",  label: "Cleaning" },
+                  { color: "bg-blue-500",   label: "Plumbing" },
+                  { color: "bg-purple-600", label: "Electrical" },
+                ].map(item => (
+                  <div key={item.label} className="flex items-center gap-1.5">
+                    <span className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+                    <span className="text-xs text-gray-600 font-medium">{item.label}</span>
                   </div>
                 ))}
               </div>
-              {/* Map visual */}
-              <div className="relative bg-[#e8f0e4] overflow-hidden" style={{ height: 340 }}>
-                {/* Road grid */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <line x1="0" y1="45" x2="100" y2="45" stroke="#c8d8c0" strokeWidth="2.5" />
-                  <line x1="0" y1="62" x2="100" y2="62" stroke="#c8d8c0" strokeWidth="1.5" />
-                  <line x1="50" y1="0" x2="50" y2="100" stroke="#c8d8c0" strokeWidth="2" />
-                  <line x1="30" y1="0" x2="30" y2="100" stroke="#c8d8c0" strokeWidth="1" />
-                  <line x1="70" y1="0" x2="70" y2="100" stroke="#c8d8c0" strokeWidth="1" />
-                  <line x1="0" y1="25" x2="100" y2="25" stroke="#c8d8c0" strokeWidth="1" />
-                  <rect x="35" y="48" width="30" height="12" rx="1" fill="#d4e8cc" stroke="#c8d8c0" strokeWidth="0.5" />
-                  <rect x="20" y="30" width="15" height="10" rx="1" fill="#d4e8cc" stroke="#c8d8c0" strokeWidth="0.5" />
-                  <rect x="62" y="28" width="18" height="12" rx="1" fill="#d4e8cc" stroke="#c8d8c0" strokeWidth="0.5" />
-                </svg>
-                {/* Ruiru label */}
-                <div className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 text-sm font-bold text-gray-600 pointer-events-none">
-                  Ruiru
-                </div>
-                {/* Map pins */}
-                {MAP_PINS.map((pin, i) => (
-                  <div
-                    key={i}
-                    className={`absolute w-5 h-5 rounded-full border-2 border-white shadow-md flex items-center justify-center transform -translate-x-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition-transform ${catColorMap[pin.cat]}`}
-                    style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
-                  >
-                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                  </div>
-                ))}
-                {/* Map controls */}
-                <div className="absolute bottom-4 right-4 flex flex-col gap-1">
-                  <button className="w-7 h-7 bg-white rounded-lg shadow-md flex items-center justify-center text-gray-700 font-bold text-base hover:bg-gray-50">+</button>
-                  <button className="w-7 h-7 bg-white rounded-lg shadow-md flex items-center justify-center text-gray-700 font-bold text-base hover:bg-gray-50">−</button>
-                </div>
-                <div className="absolute bottom-2 left-2 text-[9px] text-gray-400">Map data ©2022 Google · Terms of Use</div>
+
+              {/* Map image */}
+              <div className="relative overflow-hidden" style={{ height: 420 }}>
+                <img
+                  src={mapImg}
+                  alt="Map view of service providers in Ruiru, Kiambu"
+                  className="w-full h-full object-cover object-center"
+                />
+                {/* Expand button overlay */}
+                <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-lg shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-200">
+                  <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: Nearby highlights */}
-          <div className="col-span-12 lg:col-span-3">
-            <h2 className="text-sm font-extrabold text-gray-900 mb-0.5">Nearby Service Highlights</h2>
-            <p className="text-xs text-gray-400 mb-4">Featured, discounted, local pros</p>
-            <div className="space-y-3">
-              {NEARBY.map((pro, idx) => (
-                <div key={idx} className={`bg-white rounded-2xl border p-3 hover:shadow-md transition-shadow cursor-pointer ${idx === 0 ? "border-green-300 ring-1 ring-green-100" : "border-gray-100"}`}>
-                  <div className="flex items-center gap-2.5 mb-2">
-                    <div className="relative">
-                      <img src={pro.img} alt={pro.name} className="w-11 h-11 rounded-xl object-cover" />
-                      {pro.verified && (
-                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center border-2 border-white">
-                          <CheckCircle className="w-2.5 h-2.5 text-white fill-white" />
-                        </div>
-                      )}
+          {/* ─── RIGHT: Nearby Highlights ─── */}
+          <div className="col-span-12 lg:col-span-3 flex flex-col gap-3">
+            <div>
+              <h2 className="text-base font-extrabold text-gray-900">Nearby Highlights</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Featured pros close to you</p>
+            </div>
+
+            {NEARBY.map((pro, idx) => (
+              <div
+                key={idx}
+                className={`bg-white rounded-2xl border p-3.5 cursor-pointer hover:shadow-md transition-all
+                  ${pro.featured ? "border-green-300 ring-1 ring-green-100" : "border-gray-200 hover:border-green-200"}`}
+              >
+                {pro.featured && (
+                  <div className="flex items-center gap-1.5 mb-2.5">
+                    <span className="text-[10px] font-extrabold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5 uppercase tracking-wide">⭐ Featured</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2.5">
+                  <div className="relative flex-shrink-0">
+                    <img src={pro.img} alt={pro.name} className="w-12 h-12 rounded-xl object-cover" />
+                    <span className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white ${pro.online ? "bg-green-500" : "bg-gray-300"}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm font-bold text-gray-900 truncate">{pro.name}</p>
+                      {pro.verified && <CheckCircle className="w-3 h-3 text-green-500 fill-green-100 flex-shrink-0" />}
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">{pro.name}</p>
-                      <p className="text-xs text-gray-500">{pro.role}</p>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                        <span className="text-xs font-semibold text-gray-700">{pro.rating}</span>
-                        <span className="text-xs text-gray-400">{pro.dist}</span>
-                      </div>
+                    <p className="text-xs text-gray-500">{pro.role}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-semibold text-gray-700">{pro.rating}</span>
+                      <span className="text-xs text-gray-400">·</span>
+                      <span className="text-xs text-gray-400">{pro.distance}</span>
                     </div>
                   </div>
-                  {idx === 0 && (
-                    <div className="bg-green-50 rounded-lg px-2 py-1 mb-2">
-                      <p className="text-[10px] font-bold text-green-700">Featured Services</p>
-                    </div>
-                  )}
-                  <p className="text-xs font-semibold text-green-700">{pro.price}</p>
-                  <button className="mt-2 w-full bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1.5 rounded-lg transition-colors">
+                </div>
+
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                  <span className="text-xs font-bold text-green-700">{pro.price}</span>
+                  <button className="text-xs font-bold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition-colors">
                     Book Now
                   </button>
                 </div>
-              ))}
+              </div>
+            ))}
+
+            {/* Quick stats card */}
+            <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-2xl p-4 text-white mt-1">
+              <p className="text-xs font-bold text-green-100 mb-3 uppercase tracking-wide">Available Right Now</p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { label: "Pros Online", value: "24" },
+                  { label: "Avg Response", value: "8 min" },
+                  { label: "Jobs Today", value: "47" },
+                  { label: "Avg Rating", value: "4.8★" },
+                ].map(stat => (
+                  <div key={stat.label} className="bg-white/10 rounded-xl px-3 py-2">
+                    <p className="text-lg font-extrabold">{stat.value}</p>
+                    <p className="text-[10px] text-green-100 mt-0.5">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Most Popular Services */}
+        {/* ── Popular Services Strip ── */}
         <section className="mt-10">
-          <h2 className="text-xl font-extrabold text-gray-900 mb-1">
-            Most Popular Services in <span className="text-green-600">Ruiru</span>
-          </h2>
-          <p className="text-sm text-gray-500 mb-5">High-demand, top-rated services near you</p>
-          <div className="flex gap-4 overflow-x-auto pb-2">
+          <div className="flex items-end justify-between mb-5">
+            <div>
+              <h2 className="text-2xl font-extrabold text-gray-900">
+                Most Popular in <span className="text-green-600">Ruiru</span>
+              </h2>
+              <p className="text-sm text-gray-500 mt-1">High-demand, top-rated services near you</p>
+            </div>
+            <button className="text-sm font-bold text-green-600 hover:underline flex items-center gap-1">
+              View all <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {POPULAR.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div key={idx} className="flex-shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-4 py-4 hover:shadow-md transition-shadow cursor-pointer min-w-[220px] group">
-                  <div className={`w-11 h-11 ${item.color} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-5 h-5 ${item.iconColor}`} />
+                <div
+                  key={idx}
+                  className={`flex items-center gap-4 ${item.color} border border-transparent rounded-2xl px-5 py-4 hover:shadow-md hover:border-gray-200 transition-all cursor-pointer group`}
+                >
+                  <div className={`w-12 h-12 ${item.iconBg} rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                    <Icon className={`w-6 h-6 ${item.iconColor}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-gray-900">{item.label}</p>
-                    <p className="text-xs text-gray-400 leading-tight">{item.desc}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.desc}</p>
+                    <p className="text-xs font-semibold text-green-700 mt-1">{item.count}</p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 transition-colors flex-shrink-0" />
+                  <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </div>
               );
             })}
