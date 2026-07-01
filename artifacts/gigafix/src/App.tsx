@@ -5,6 +5,9 @@ import SignUpPage from "@/pages/SignUpPage";
 import ProfessionalOnboarding from "@/pages/ProfessionalOnboarding";
 import CustomerDashboard from "@/pages/CustomerDashboard";
 import ProDashboard from "@/pages/ProDashboard";
+import ProSchedule from "@/pages/ProSchedule";
+import ProJobFeed from "@/pages/ProJobFeed";
+import ProReviews from "@/pages/ProReviews";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +20,9 @@ function Router() {
       <Route path="/dashboard" component={CustomerDashboard} />
       <Route path="/welcome" component={CustomerDashboard} />
       <Route path="/pro-dashboard" component={ProDashboard} />
+      <Route path="/pro/schedule" component={ProSchedule} />
+      <Route path="/pro/jobs" component={ProJobFeed} />
+      <Route path="/pro/reviews" component={ProReviews} />
       <Route component={NotFound} />
     </Switch>
   );
