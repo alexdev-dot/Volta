@@ -26,6 +26,17 @@ export interface OnboardingData {
   pricing: Record<string, { rate: string; unit: string }>;
 }
 
+function loadPrefill(): Partial<OnboardingData> {
+  try {
+    const raw = localStorage.getItem("gigafix_onboarding_prefill");
+    if (raw) {
+      localStorage.removeItem("gigafix_onboarding_prefill");
+      return JSON.parse(raw);
+    }
+  } catch {}
+  return {};
+}
+
 const defaultData: OnboardingData = {
   firstName: "",
   lastName: "",
@@ -41,15 +52,18 @@ const defaultData: OnboardingData = {
 
 export default function ProfessionalOnboarding() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [data, setData] = useState<OnboardingData>(defaultData);
+  const [data, setData] = useState<OnboardingData>(() => ({ ...defaultData, ...loadPrefill() }));
   const [submitted, setSubmitted] = useState(false);
 
-  const updateData = (updates: Partial<OnboardingData>) => {
+  const updateData = (updates: Partial<OnboardingData>) =>
     setData((prev) => ({ ...prev, ...updates }));
-  };
 
   const next = () => setCurrentStep((s) => Math.min(s + 1, 4));
   const back = () => setCurrentStep((s) => Math.max(s - 1, 1));
+
+  const storedUser = (() => {
+    try { return JSON.parse(localStorage.getItem("gigafix_user") || "{}"); } catch { return {}; }
+  })();
 
   if (submitted) {
     return (
@@ -60,9 +74,13 @@ export default function ProfessionalOnboarding() {
           </div>
           <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Application Submitted!</h2>
           <p className="text-gray-500 text-sm mb-2">
-            Thank you for joining GigaFix as a professional. Our team will review your profile and verify your credentials within <strong>24–48 hours</strong>.
+            Thank you{data.firstName ? `, ${data.firstName}` : ""}! Our team will review your profile and verify your credentials within <strong>24–48 hours</strong>.
           </p>
-          <p className="text-gray-400 text-xs mb-7">You'll receive a confirmation email once your account is approved.</p>
+          <p className="text-gray-400 text-xs mb-7">
+            You'll receive a confirmation at{" "}
+            <span className="font-medium text-gray-600">{storedUser.email || "your email"}</span>{" "}
+            once your account is approved.
+          </p>
           <Link href="/">
             <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-sm transition-colors">
               Back to Home
@@ -79,16 +97,13 @@ export default function ProfessionalOnboarding() {
       <header className="bg-white border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
           <Link href="/" className="flex items-center gap-1.5 text-gray-500 hover:text-gray-700 text-sm transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 bg-green-600 rounded-md flex items-center justify-center">
               <span className="text-white font-bold text-xs">GF</span>
             </div>
-            <span className="text-gray-900 font-bold text-base">
-              Giga<span className="text-green-600">Fix</span>
-            </span>
+            <span className="text-gray-900 font-bold text-base">Giga<span className="text-green-600">Fix</span></span>
           </div>
           <span className="text-xs text-gray-400">Step {currentStep} of 4</span>
         </div>
@@ -98,13 +113,11 @@ export default function ProfessionalOnboarding() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between relative">
-            {/* Connector line */}
             <div className="absolute left-0 right-0 top-5 h-0.5 bg-gray-200 z-0" />
             <div
               className="absolute left-0 top-5 h-0.5 bg-green-500 z-0 transition-all duration-500"
               style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
             />
-
             {STEPS.map((step) => {
               const done = currentStep > step.id;
               const active = currentStep === step.id;
@@ -112,10 +125,8 @@ export default function ProfessionalOnboarding() {
                 <div key={step.id} className="flex flex-col items-center z-10 gap-1.5">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 font-bold text-sm transition-all duration-300 ${
-                      done
-                        ? "bg-green-600 border-green-600 text-white"
-                        : active
-                        ? "bg-white border-green-600 text-green-600"
+                      done ? "bg-green-600 border-green-600 text-white"
+                        : active ? "bg-white border-green-600 text-green-600"
                         : "bg-white border-gray-300 text-gray-400"
                     }`}
                   >
@@ -140,9 +151,7 @@ export default function ProfessionalOnboarding() {
           {currentStep === 1 && <Step1Profile data={data} onChange={updateData} onNext={next} />}
           {currentStep === 2 && <Step2Skills data={data} onChange={updateData} onNext={next} onBack={back} />}
           {currentStep === 3 && <Step3Pricing data={data} onChange={updateData} onNext={next} onBack={back} />}
-          {currentStep === 4 && (
-            <Step4Review data={data} onBack={back} onSubmit={() => setSubmitted(true)} />
-          )}
+          {currentStep === 4 && <Step4Review data={data} onBack={back} onSubmit={() => setSubmitted(true)} />}
         </div>
       </div>
     </div>

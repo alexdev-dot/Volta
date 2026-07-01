@@ -1,23 +1,14 @@
 import { useState } from "react";
-import { Link } from "wouter";
-import { ArrowLeft, User, Mail, Phone, MapPin, Lock, Eye, EyeOff, ArrowRight, Shield, CreditCard, CheckCircle, ChevronDown } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import {
+  ArrowLeft, User, Mail, Phone, MapPin, Lock, Eye, EyeOff,
+  ArrowRight, Shield, CreditCard, CheckCircle, ChevronDown, AlertCircle,
+} from "lucide-react";
 
 const features = [
-  {
-    icon: Shield,
-    title: "Verified Professionals",
-    desc: "All professionals are background-checked and verified.",
-  },
-  {
-    icon: CreditCard,
-    title: "Secure Payments",
-    desc: "Your payments and personal info are always protected.",
-  },
-  {
-    icon: CheckCircle,
-    title: "Satisfaction Guarantee",
-    desc: "We're here to make sure you're 100% satisfied.",
-  },
+  { icon: Shield, title: "Verified Professionals", desc: "All professionals are background-checked and verified." },
+  { icon: CreditCard, title: "Secure Payments", desc: "Your payments and personal info are always protected." },
+  { icon: CheckCircle, title: "Satisfaction Guarantee", desc: "We're here to make sure you're 100% satisfied." },
 ];
 
 const avatars = [
@@ -27,25 +18,116 @@ const avatars = [
   "https://i.pravatar.cc/32?img=4",
 ];
 
+interface FormFields {
+  fullName: string;
+  email: string;
+  phone: string;
+  location: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface FormErrors {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+  confirmPassword?: string;
+  agreed?: string;
+}
+
+function validate(fields: FormFields, agreed: boolean): FormErrors {
+  const errors: FormErrors = {};
+  if (!fields.fullName.trim()) errors.fullName = "Full name is required.";
+  if (!fields.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email))
+    errors.email = "Enter a valid email address.";
+  if (!fields.phone.trim() || fields.phone.trim().length < 9)
+    errors.phone = "Enter a valid phone number.";
+  if (fields.password.length < 8)
+    errors.password = "Password must be at least 8 characters.";
+  if (fields.password !== fields.confirmPassword)
+    errors.confirmPassword = "Passwords do not match.";
+  if (!agreed) errors.agreed = "You must agree to the terms.";
+  return errors;
+}
+
 export default function SignUpPage() {
+  const [, navigate] = useLocation();
   const [role, setRole] = useState<"customer" | "professional">("customer");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [touched, setTouched] = useState<Partial<Record<keyof FormFields | "agreed", boolean>>>({});
+
+  const [fields, setFields] = useState<FormFields>({
+    fullName: "",
+    email: "",
+    phone: "",
+    location: "Nairobi, Kenya",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const setField = (key: keyof FormFields, value: string) => {
+    setFields((f) => ({ ...f, [key]: value }));
+    setTouched((t) => ({ ...t, [key]: true }));
+  };
+
+  const errors = validate(fields, agreed);
+  const isValid = Object.keys(errors).length === 0;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTouched({ fullName: true, email: true, phone: true, password: true, confirmPassword: true, agreed: true });
+    if (!isValid) return;
+
+    setLoading(true);
+
+    const nameParts = fields.fullName.trim().split(" ");
+    const firstName = nameParts[0] ?? "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+
+    const userData = {
+      fullName: fields.fullName.trim(),
+      firstName,
+      lastName,
+      email: fields.email.trim(),
+      phone: fields.phone.trim(),
+      location: fields.location,
+      role,
+    };
+
+    localStorage.setItem("gigafix_user", JSON.stringify(userData));
+
+    setTimeout(() => {
+      setLoading(false);
+      if (role === "professional") {
+        localStorage.setItem("gigafix_onboarding_prefill", JSON.stringify({
+          firstName,
+          lastName,
+          phone: fields.phone.trim(),
+          location: fields.location,
+        }));
+        navigate("/for-professionals");
+      } else {
+        navigate("/welcome");
+      }
+    }, 900);
+  };
+
+  const showError = (key: keyof FormErrors) =>
+    touched[key as keyof typeof touched] && errors[key as keyof FormErrors];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-5xl flex rounded-2xl overflow-hidden shadow-2xl" style={{ minHeight: "680px" }}>
         {/* Left panel */}
-        <div
-          className="relative hidden md:flex flex-col w-[45%] flex-shrink-0 p-8"
-        >
-          {/* Background image */}
+        <div className="relative hidden md:flex flex-col w-[45%] flex-shrink-0 p-8">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=60')",
+              backgroundImage: "url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=60')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -53,41 +135,31 @@ export default function SignUpPage() {
           <div className="absolute inset-0 bg-green-900 opacity-80" />
 
           <div className="relative z-10 flex flex-col h-full">
-            {/* Back link */}
             <Link href="/" className="flex items-center gap-1.5 text-white/80 hover:text-white text-sm mb-8 w-fit transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              Back to home
+              <ArrowLeft className="w-4 h-4" /> Back to home
             </Link>
 
-            {/* Logo */}
             <div className="flex items-center gap-2 mb-8">
               <div className="w-10 h-10 bg-white/20 border-2 border-white/40 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">GF</span>
               </div>
-              <span className="text-white font-bold text-2xl">
-                Giga<span className="text-green-400">Fix</span>
-              </span>
+              <span className="text-white font-bold text-2xl">Giga<span className="text-green-400">Fix</span></span>
             </div>
 
-            {/* Heading */}
             <h2 className="text-white text-4xl font-extrabold leading-tight mb-3">
-              Join thousands of{" "}
-              <span className="text-green-400">Kenyans</span>
+              Join thousands of <span className="text-green-400">Kenyans</span>
             </h2>
             <p className="text-white/75 text-sm leading-relaxed mb-8">
-              Create an account and connect with verified<br />
-              professionals for any service you need.
+              {role === "professional"
+                ? "Grow your business and reach thousands of customers looking for your skills."
+                : "Create an account and connect with verified professionals for any service you need."}
             </p>
 
-            {/* Features */}
             <div className="flex flex-col gap-3 mb-auto">
               {features.map((f) => {
                 const Icon = f.icon;
                 return (
-                  <div
-                    key={f.title}
-                    className="flex items-start gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-3.5"
-                  >
+                  <div key={f.title} className="flex items-start gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-3.5">
                     <div className="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4 h-4 text-white" />
                     </div>
@@ -100,7 +172,6 @@ export default function SignUpPage() {
               })}
             </div>
 
-            {/* Social proof */}
             <div className="mt-8 pt-6 border-t border-white/20 flex items-center gap-3">
               <div className="flex -space-x-2">
                 {avatars.map((src, i) => (
@@ -111,7 +182,7 @@ export default function SignUpPage() {
                 </div>
               </div>
               <p className="text-white/80 text-sm leading-snug">
-                Join 5,000+ happy customers<br />across Kenya
+                Join 5,000+ happy {role === "professional" ? "professionals" : "customers"}<br />across Kenya
               </p>
             </div>
           </div>
@@ -119,10 +190,8 @@ export default function SignUpPage() {
 
         {/* Right panel */}
         <div className="flex-1 bg-white flex flex-col justify-center px-10 py-8 overflow-y-auto">
-          {/* Mobile back */}
           <Link href="/" className="flex items-center gap-1.5 text-gray-500 hover:text-gray-700 text-sm mb-5 w-fit md:hidden transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to home
+            <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
 
           <h1 className="text-3xl font-extrabold text-gray-900 mb-1">Create your account</h1>
@@ -130,35 +199,30 @@ export default function SignUpPage() {
 
           {/* Role toggle */}
           <div className="inline-flex rounded-lg border border-gray-200 p-1 bg-gray-50 mb-6 w-fit">
-            <button
-              onClick={() => setRole("customer")}
-              className={`px-5 py-2 rounded-md text-sm font-semibold transition-colors ${
-                role === "customer"
-                  ? "bg-green-600 text-white shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              I need services
-              <span className={`block text-xs font-normal ${role === "customer" ? "text-white/80" : "text-gray-400"}`}>
-                Customer
-              </span>
-            </button>
-            <button
-              onClick={() => setRole("professional")}
-              className={`px-5 py-2 rounded-md text-sm font-semibold transition-colors ${
-                role === "professional"
-                  ? "bg-green-600 text-white shadow-sm"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              I offer services
-              <span className={`block text-xs font-normal ${role === "professional" ? "text-white/80" : "text-gray-400"}`}>
-                Professional
-              </span>
-            </button>
+            {(["customer", "professional"] as const).map((r) => (
+              <button
+                key={r}
+                onClick={() => setRole(r)}
+                className={`px-5 py-2 rounded-md text-sm font-semibold transition-colors ${
+                  role === r ? "bg-green-600 text-white shadow-sm" : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                {r === "customer" ? "I need services" : "I offer services"}
+                <span className={`block text-xs font-normal ${role === r ? "text-white/80" : "text-gray-400"}`}>
+                  {r === "customer" ? "Customer" : "Professional"}
+                </span>
+              </button>
+            ))}
           </div>
 
-          <form className="flex flex-col gap-4" onSubmit={(e) => e.preventDefault()}>
+          {role === "professional" && (
+            <div className="flex items-start gap-2 bg-green-50 border border-green-100 rounded-xl p-3 mb-4 text-xs text-green-800">
+              <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+              After signing up you'll be taken through a quick profile setup to get you listed and earning.
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             {/* Row 1 */}
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -168,9 +232,12 @@ export default function SignUpPage() {
                   <input
                     type="text"
                     placeholder="John Kamau"
-                    className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    value={fields.fullName}
+                    onChange={(e) => setField("fullName", e.target.value)}
+                    className={`w-full border rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${showError("fullName") ? "border-red-400" : "border-gray-300"}`}
                   />
                 </div>
+                {showError("fullName") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.fullName}</p>}
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-1.5">Email address</label>
@@ -179,9 +246,12 @@ export default function SignUpPage() {
                   <input
                     type="email"
                     placeholder="you@example.com"
-                    className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    value={fields.email}
+                    onChange={(e) => setField("email", e.target.value)}
+                    className={`w-full border rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${showError("email") ? "border-red-400" : "border-gray-300"}`}
                   />
                 </div>
+                {showError("email") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
               </div>
             </div>
 
@@ -194,20 +264,23 @@ export default function SignUpPage() {
                   <input
                     type="tel"
                     placeholder="+254 700 000 000"
-                    className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    value={fields.phone}
+                    onChange={(e) => setField("phone", e.target.value)}
+                    className={`w-full border rounded-lg pl-10 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${showError("phone") ? "border-red-400" : "border-gray-300"}`}
                   />
                 </div>
+                {showError("phone") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.phone}</p>}
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-1.5">Location</label>
                 <div className="relative">
                   <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <select className="w-full border border-gray-300 rounded-lg pl-10 pr-8 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition appearance-none bg-white">
-                    <option>Nairobi, Kenya</option>
-                    <option>Ruiru, Kiambu</option>
-                    <option>Mombasa, Kenya</option>
-                    <option>Kisumu, Kenya</option>
-                    <option>Nakuru, Kenya</option>
+                  <select
+                    value={fields.location}
+                    onChange={(e) => setField("location", e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg pl-10 pr-8 py-2.5 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white transition"
+                  >
+                    {["Nairobi, Kenya","Ruiru, Kiambu","Thika, Kiambu","Mombasa, Kenya","Kisumu, Kenya","Nakuru, Kenya","Eldoret, Kenya"].map((l) => <option key={l}>{l}</option>)}
                   </select>
                   <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                 </div>
@@ -222,17 +295,18 @@ export default function SignUpPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a password"
-                  className="w-full border border-gray-300 rounded-lg pl-10 pr-10 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  value={fields.password}
+                  onChange={(e) => setField("password", e.target.value)}
+                  className={`w-full border rounded-lg pl-10 pr-10 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${showError("password") ? "border-red-400" : "border-gray-300"}`}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="text-xs text-gray-400 mt-1">Must be at least 8 characters with a mix of letters, numbers &amp; symbols</p>
+              {showError("password")
+                ? <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.password}</p>
+                : <p className="text-xs text-gray-400 mt-1">Must be at least 8 characters with a mix of letters, numbers &amp; symbols</p>
+              }
             </div>
 
             {/* Confirm Password */}
@@ -243,46 +317,60 @@ export default function SignUpPage() {
                 <input
                   type={showConfirm ? "text" : "password"}
                   placeholder="Confirm your password"
-                  className="w-full border border-gray-300 rounded-lg pl-10 pr-10 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  value={fields.confirmPassword}
+                  onChange={(e) => setField("confirmPassword", e.target.value)}
+                  className={`w-full border rounded-lg pl-10 pr-10 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${showError("confirmPassword") ? "border-red-400" : "border-gray-300"}`}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
+                <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              {showError("confirmPassword") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.confirmPassword}</p>}
             </div>
 
             {/* Terms */}
-            <label className="flex items-start gap-2.5 cursor-pointer">
-              <div
-                onClick={() => setAgreed(!agreed)}
-                className={`w-4 h-4 mt-0.5 rounded flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors ${
-                  agreed ? "bg-green-600 border-green-600" : "border-2 border-gray-300"
-                }`}
-              >
-                {agreed && (
-                  <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </div>
-              <span className="text-sm text-gray-600">
-                I agree to the{" "}
-                <a href="#" className="text-green-600 font-semibold hover:text-green-700">Terms of Service</a>
-                {" "}and{" "}
-                <a href="#" className="text-green-600 font-semibold hover:text-green-700">Privacy Policy</a>
-              </span>
-            </label>
+            <div>
+              <label className="flex items-start gap-2.5 cursor-pointer">
+                <div
+                  onClick={() => { setAgreed(!agreed); setTouched((t) => ({ ...t, agreed: true })); }}
+                  className={`w-4 h-4 mt-0.5 rounded flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors ${agreed ? "bg-green-600" : "border-2 border-gray-300"}`}
+                >
+                  {agreed && (
+                    <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </div>
+                <span className="text-sm text-gray-600">
+                  I agree to the{" "}
+                  <a href="#" className="text-green-600 font-semibold hover:text-green-700">Terms of Service</a>{" "}
+                  and{" "}
+                  <a href="#" className="text-green-600 font-semibold hover:text-green-700">Privacy Policy</a>
+                </span>
+              </label>
+              {showError("agreed") && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.agreed}</p>}
+            </div>
 
-            {/* Create Account button */}
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-lg text-sm transition-colors"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3.5 rounded-lg text-sm transition-colors"
             >
-              Create Account <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                  Creating account…
+                </span>
+              ) : (
+                <>
+                  {role === "professional" ? "Create Account & Set Up Profile" : "Create Account"}
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </form>
 
@@ -293,7 +381,6 @@ export default function SignUpPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Social buttons */}
           <div className="grid grid-cols-2 gap-3">
             <button className="flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -312,12 +399,9 @@ export default function SignUpPage() {
             </button>
           </div>
 
-          {/* Sign in link */}
           <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
-            <Link href="/sign-in" className="text-green-600 font-semibold hover:text-green-700">
-              Sign in
-            </Link>
+            <Link href="/sign-in" className="text-green-600 font-semibold hover:text-green-700">Sign in</Link>
           </p>
         </div>
       </div>

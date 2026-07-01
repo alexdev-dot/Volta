@@ -1,71 +1,81 @@
 import { useState } from "react";
-import { Link } from "wouter";
-import { ArrowLeft, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, CreditCard, CheckCircle } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { ArrowLeft, Mail, Lock, Eye, EyeOff, ArrowRight, Shield, CreditCard, CheckCircle, AlertCircle } from "lucide-react";
 
 const features = [
-  {
-    icon: Shield,
-    title: "Verified Professionals",
-    desc: "All professionals are background-checked and verified.",
-  },
-  {
-    icon: CreditCard,
-    title: "Secure Payments",
-    desc: "Your payments and personal info are always protected.",
-  },
-  {
-    icon: CheckCircle,
-    title: "Satisfaction Guarantee",
-    desc: "We're here to make sure you're 100% satisfied.",
-  },
+  { icon: Shield, title: "Verified Professionals", desc: "All professionals are background-checked and verified." },
+  { icon: CreditCard, title: "Secure Payments", desc: "Your payments and personal info are always protected." },
+  { icon: CheckCircle, title: "Satisfaction Guarantee", desc: "We're here to make sure you're 100% satisfied." },
 ];
 
 export default function SignInPage() {
+  const [, navigate] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [touched, setTouched] = useState({ email: false, password: false });
+  const [authError, setAuthError] = useState("");
+
+  const emailError = touched.email && (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    ? "Enter a valid email address." : "";
+  const passwordError = touched.password && password.length < 6
+    ? "Password must be at least 6 characters." : "";
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTouched({ email: true, password: true });
+    setAuthError("");
+    if (emailError || passwordError || !email || !password) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      const stored = localStorage.getItem("gigafix_user");
+      if (stored) {
+        const user = JSON.parse(stored);
+        localStorage.setItem("gigafix_session", JSON.stringify({ email, loggedIn: true, role: user.role }));
+        setLoading(false);
+        if (user.role === "professional") {
+          navigate("/for-professionals");
+        } else {
+          navigate("/welcome");
+        }
+      } else {
+        setLoading(false);
+        setAuthError("No account found. Please sign up first.");
+      }
+    }, 900);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-5xl flex rounded-2xl overflow-hidden shadow-2xl" style={{ minHeight: "620px" }}>
         {/* Left panel */}
-        <div
-          className="relative hidden md:flex flex-col w-[45%] flex-shrink-0 p-8"
-          style={{
-            background: "linear-gradient(135deg, rgba(16,78,37,0.92) 0%, rgba(20,100,50,0.88) 100%)",
-          }}
-        >
-          {/* Background image */}
+        <div className="relative hidden md:flex flex-col w-[45%] flex-shrink-0 p-8">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=60')",
+              backgroundImage: "url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=60')",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              mixBlendMode: "multiply",
-              opacity: 0.45,
             }}
           />
           <div className="absolute inset-0 bg-green-900 opacity-75" />
 
           <div className="relative z-10 flex flex-col h-full">
-            {/* Back link */}
             <Link href="/" className="flex items-center gap-1.5 text-white/80 hover:text-white text-sm mb-8 w-fit transition-colors">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
+              <ArrowLeft className="w-4 h-4" /> Back to Home
             </Link>
 
-            {/* Logo */}
             <div className="flex items-center gap-2 mb-8">
               <div className="w-10 h-10 bg-white/20 border-2 border-white/40 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">GF</span>
               </div>
-              <span className="text-white font-bold text-2xl">
-                Giga<span className="text-green-400">Fix</span>
-              </span>
+              <span className="text-white font-bold text-2xl">Giga<span className="text-green-400">Fix</span></span>
             </div>
 
-            {/* Heading */}
             <h2 className="text-white text-4xl font-extrabold leading-tight mb-3">
               Welcome <span className="text-green-400">back!</span>
             </h2>
@@ -73,15 +83,11 @@ export default function SignInPage() {
               Sign in to continue connecting with<br />trusted professionals.
             </p>
 
-            {/* Features */}
             <div className="flex flex-col gap-3 mb-auto">
               {features.map((f) => {
                 const Icon = f.icon;
                 return (
-                  <div
-                    key={f.title}
-                    className="flex items-start gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-3.5"
-                  >
+                  <div key={f.title} className="flex items-start gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl p-3.5">
                     <div className="w-9 h-9 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-4 h-4 text-white" />
                     </div>
@@ -94,15 +100,13 @@ export default function SignInPage() {
               })}
             </div>
 
-            {/* Create account CTA */}
             <div className="mt-8 pt-6 border-t border-white/20">
               <p className="text-white font-semibold text-sm mb-1">New to GigaFix?</p>
               <p className="text-white/65 text-xs mb-3">Create an account and book top-rated professionals.</p>
               <Link href="/sign-up">
                 <button className="flex items-center gap-2 border border-white/40 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-white/10 transition-colors">
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
+                    <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
                     <path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
                   </svg>
                   Create Account
@@ -114,17 +118,20 @@ export default function SignInPage() {
 
         {/* Right panel */}
         <div className="flex-1 bg-white flex flex-col justify-center px-10 py-10">
-          {/* Mobile back */}
           <Link href="/" className="flex items-center gap-1.5 text-gray-500 hover:text-gray-700 text-sm mb-6 w-fit md:hidden transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
+            <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           <h1 className="text-3xl font-extrabold text-gray-900 mb-1">Sign in to your account</h1>
           <p className="text-gray-500 text-sm mb-7">Welcome back! Please enter your details.</p>
 
-          <form className="flex flex-col gap-5" onSubmit={(e) => e.preventDefault()}>
-            {/* Email */}
+          {authError && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg p-3 mb-4">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" /> {authError}
+            </div>
+          )}
+
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-1.5">Email address</label>
               <div className="relative">
@@ -132,12 +139,15 @@ export default function SignInPage() {
                 <input
                   type="email"
                   placeholder="you@example.com"
-                  className="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+                  className={`w-full border rounded-lg pl-10 pr-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${emailError ? "border-red-400" : "border-gray-300"}`}
                 />
               </div>
+              {emailError && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{emailError}</p>}
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-semibold text-gray-800 mb-1.5">Password</label>
               <div className="relative">
@@ -145,26 +155,23 @@ export default function SignInPage() {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="w-full border border-gray-300 rounded-lg pl-10 pr-10 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => setTouched((t) => ({ ...t, password: true }))}
+                  className={`w-full border rounded-lg pl-10 pr-10 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition ${passwordError ? "border-red-400" : "border-gray-300"}`}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              {passwordError && <p className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{passwordError}</p>}
             </div>
 
-            {/* Remember me + forgot */}
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
                 <div
                   onClick={() => setRemember(!remember)}
-                  className={`w-4 h-4 rounded flex items-center justify-center cursor-pointer transition-colors ${
-                    remember ? "bg-green-600 border-green-600" : "border-2 border-gray-300"
-                  }`}
+                  className={`w-4 h-4 rounded flex items-center justify-center cursor-pointer transition-colors ${remember ? "bg-green-600" : "border-2 border-gray-300"}`}
                 >
                   {remember && (
                     <svg className="w-3 h-3 text-white" viewBox="0 0 12 12" fill="none">
@@ -174,28 +181,34 @@ export default function SignInPage() {
                 </div>
                 <span className="text-sm text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-green-600 font-semibold hover:text-green-700">
-                Forgot password?
-              </a>
+              <a href="#" className="text-sm text-green-600 font-semibold hover:text-green-700">Forgot password?</a>
             </div>
 
-            {/* Sign In button */}
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-lg text-sm transition-colors"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-bold py-3.5 rounded-lg text-sm transition-colors"
             >
-              Sign In <ArrowRight className="w-4 h-4" />
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                  Signing in…
+                </span>
+              ) : (
+                <>Sign In <ArrowRight className="w-4 h-4" /></>
+              )}
             </button>
           </form>
 
-          {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-gray-200" />
             <span className="text-gray-400 text-xs">or continue with</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Social buttons */}
           <div className="flex flex-col gap-3">
             <button className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -214,7 +227,6 @@ export default function SignInPage() {
             </button>
           </div>
 
-          {/* Security note */}
           <div className="flex flex-col items-center gap-1 mt-6">
             <div className="flex items-center gap-1.5">
               <Shield className="w-4 h-4 text-green-600" />
