@@ -26,14 +26,14 @@ export default function HowItWorksPage() {
       <Navbar active="How It Works" />
 
       {/* Hero */}
-      <section className="relative bg-white pt-14 pb-10 px-6 overflow-hidden">
-        <div className="absolute top-4 right-28 w-10 h-10 border-2 border-green-200 rounded-xl rotate-12 opacity-50" />
-        <div className="absolute top-16 right-16 w-7 h-7 border-2 border-green-300 rounded rotate-45 opacity-40" />
-        <div className="absolute top-6 right-8 w-16 h-16 bg-green-50 rounded-2xl rotate-6 opacity-50" />
-        <div className="absolute top-28 right-52 w-8 h-8 border border-green-100 rounded rotate-12 opacity-30" />
+      <section className="relative bg-white pt-10 pb-8 px-4 sm:px-6 overflow-hidden">
+        <div className="hidden sm:block absolute top-4 right-28 w-10 h-10 border-2 border-green-200 rounded-xl rotate-12 opacity-50" />
+        <div className="hidden sm:block absolute top-16 right-16 w-7 h-7 border-2 border-green-300 rounded rotate-45 opacity-40" />
+        <div className="hidden sm:block absolute top-6 right-8 w-16 h-16 bg-green-50 rounded-2xl rotate-6 opacity-50" />
+        <div className="hidden sm:block absolute top-28 right-52 w-8 h-8 border border-green-100 rounded rotate-12 opacity-30" />
         <div className="max-w-7xl mx-auto">
-          <p className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-3">HOW IT WORKS</p>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400 mb-3">HOW IT WORKS</p>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
             How It Works:<br />
             Simple Steps to a Fixed Home
           </h1>

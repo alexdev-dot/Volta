@@ -153,7 +153,7 @@ export default function FindServicesPage() {
       {/* ── Hero Search Bar ── */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-5 py-5">
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
             {/* Search input */}
             <div className="flex items-center gap-3 flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 focus-within:border-green-400 focus-within:ring-2 focus-within:ring-green-100 transition-all">
               <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
@@ -161,19 +161,21 @@ export default function FindServicesPage() {
                 value={searchVal}
                 onChange={e => setSearchVal(e.target.value)}
                 type="text"
-                placeholder="What service do you need? e.g. Plumbing, Cleaning..."
+                placeholder="What service do you need? e.g. Plumbing..."
                 className="flex-1 text-sm text-gray-700 placeholder-gray-400 outline-none bg-transparent"
               />
             </div>
-            {/* Location */}
-            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 min-w-[180px] cursor-pointer hover:border-green-300 transition-colors">
-              <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
-              <span className="text-sm text-gray-700 font-medium">Ruiru, Kiambu</span>
-              <ChevronDown className="w-4 h-4 text-gray-400 ml-auto" />
+            <div className="flex gap-2">
+              {/* Location */}
+              <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 flex-1 sm:flex-none sm:min-w-[180px] cursor-pointer hover:border-green-300 transition-colors">
+                <MapPin className="w-4 h-4 text-green-600 flex-shrink-0" />
+                <span className="text-sm text-gray-700 font-medium">Ruiru, Kiambu</span>
+                <ChevronDown className="w-4 h-4 text-gray-400 ml-auto" />
+              </div>
+              <button className="bg-green-600 hover:bg-green-700 active:scale-95 text-white font-bold text-sm px-6 py-3 rounded-2xl transition-all shadow-sm shadow-green-200 whitespace-nowrap">
+                Search
+              </button>
             </div>
-            <button className="bg-green-600 hover:bg-green-700 active:scale-95 text-white font-bold text-sm px-8 py-3 rounded-2xl transition-all shadow-sm shadow-green-200">
-              Search
-            </button>
           </div>
 
           {/* Category chips */}
@@ -309,7 +311,7 @@ export default function FindServicesPage() {
 
           {/* ─── CENTER: Real Map Image — full bleed ─── */}
           <div className="col-span-12 lg:col-span-5">
-            <div className="relative rounded-2xl overflow-hidden shadow-md border border-gray-200 sticky top-4" style={{ height: 560 }}>
+            <div className="relative rounded-2xl overflow-hidden shadow-md border border-gray-200 lg:sticky lg:top-4" style={{ height: 'min(560px, 70vw)', minHeight: 280 }}>
               {/* Map image — covers entire section */}
               <img
                 src={mapImg}

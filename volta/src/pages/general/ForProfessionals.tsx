@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { CheckCircle, Star, Users, CreditCard, Calendar, BarChart2, Bell, MapPin, Zap, Shield, TrendingUp, ChevronDown } from "lucide-react";
+import { CheckCircle, Star, Users, CreditCard, Calendar, BarChart2, Bell, Zap, Shield, ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CtaBanner from "@/components/CtaBanner";
+import dashboardImg from "@/assets/dashboard-mockup.png";
 
 const SERVICES = ["Plumbing","Electrical","Carpentry","Cleaning","Painting","HVAC","Mechanic","Masonry","Landscaping","Other"];
 
@@ -27,141 +28,33 @@ export default function ForProfessionalsPage() {
       <Navbar active="For Professionals" />
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-white via-green-50 to-white pt-14 pb-6 px-4 overflow-hidden">
-        {/* Decorative shapes */}
-        <div className="absolute top-8 right-12 w-16 h-16 border-2 border-green-200 rounded-xl opacity-40 rotate-12" />
-        <div className="absolute top-20 right-40 w-8 h-8 border-2 border-green-300 rounded-lg opacity-30 -rotate-6" />
-        <div className="absolute bottom-10 right-20 w-12 h-12 bg-green-100 rounded-xl opacity-50 rotate-6" />
-        <div className="absolute top-12 left-8 w-6 h-6 bg-green-200 rounded-full opacity-30" />
+      <section className="relative bg-gradient-to-br from-white via-green-50 to-white pt-12 pb-6 px-4 overflow-hidden">
+        {/* Decorative shapes — hidden on very small screens */}
+        <div className="hidden sm:block absolute top-8 right-12 w-16 h-16 border-2 border-green-200 rounded-xl opacity-40 rotate-12" />
+        <div className="hidden sm:block absolute top-20 right-40 w-8 h-8 border-2 border-green-300 rounded-lg opacity-30 -rotate-6" />
+        <div className="hidden sm:block absolute bottom-10 right-20 w-12 h-12 bg-green-100 rounded-xl opacity-50 rotate-6" />
+        <div className="hidden sm:block absolute top-12 left-8 w-6 h-6 bg-green-200 rounded-full opacity-30" />
 
-        <div className="max-w-7xl mx-auto text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-3">
-            Grow Your Business with GigaFix.<br />
-            Join our network of verified pros.
+        <div className="max-w-7xl mx-auto text-center mb-8 px-2">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-3">
+            Grow Your Business with GigaFix.<br className="hidden sm:block" />
+            {" "}Join our network of verified pros.
           </h1>
-          <p className="text-gray-500 text-base max-w-xl mx-auto">
+          <p className="text-gray-500 text-sm sm:text-base max-w-xl mx-auto">
             Connect with thousands of customers looking for your skills. Get verified, get booked, get paid.
           </p>
         </div>
 
         {/* Main content row */}
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-          {/* Dashboard mockup */}
-          <div className="lg:col-span-5 relative">
-            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-              {/* Dashboard header */}
-              <div className="bg-green-700 px-4 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-[10px] font-bold">GF</span>
-                  </div>
-                  <span className="text-white text-sm font-bold">Dashboard</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-green-200" />
-                  <img src="https://i.pravatar.cc/30?img=52" className="w-6 h-6 rounded-full border-2 border-white" alt="pro" />
-                </div>
-              </div>
-
-              {/* Stats row */}
-              <div className="grid grid-cols-3 gap-2 px-4 py-3 border-b border-gray-100">
-                {[
-                  { label: "Bookings", value: "34", icon: "📅", trend: "+3" },
-                  { label: "Income", value: "KSh.3K", icon: "💰" },
-                  { label: "Client Leads", value: "23", icon: "👥" },
-                ].map((s, i) => (
-                  <div key={i} className={`rounded-xl p-2.5 ${i === 0 ? "bg-green-50 border border-green-200" : "bg-gray-50 border border-gray-100"}`}>
-                    <p className="text-[9px] text-gray-500 font-medium mb-1">{s.label}</p>
-                    <div className="flex items-end gap-1">
-                      <p className="text-base font-extrabold text-gray-900">{s.value}</p>
-                      {s.trend && <span className="text-[9px] font-bold text-green-600 mb-0.5">{s.trend}</span>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Map + sidebar */}
-              <div className="flex">
-                {/* Left category tabs */}
-                <div className="w-14 bg-gray-50 border-r border-gray-100 flex flex-col items-center py-3 gap-3">
-                  {[
-                    { label: "Plumbing", icon: "🔧", active: true },
-                    { label: "Electrical", icon: "⚡", active: false },
-                  ].map((tab, i) => (
-                    <div key={i} className={`w-10 rounded-xl px-1 py-2 flex flex-col items-center gap-0.5 cursor-pointer ${tab.active ? "bg-green-100 border border-green-300" : "bg-white border border-gray-200"}`}>
-                      <span className="text-base">{tab.icon}</span>
-                      <span className={`text-[7px] font-bold text-center leading-tight ${tab.active ? "text-green-700" : "text-gray-500"}`}>{tab.label}</span>
-                    </div>
-                  ))}
-                  <div className="w-10 bg-white border border-gray-200 rounded-xl px-1 py-2 flex flex-col items-center gap-1">
-                    {["🔧","⚡","🔩"].map((ic, i) => (
-                      <span key={i} className="text-sm">{ic}</span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Map area */}
-                <div className="flex-1 relative bg-[#e8f0e4] overflow-hidden" style={{ height: 160 }}>
-                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <line x1="0" y1="50" x2="100" y2="50" stroke="#c8d8c0" strokeWidth="3" />
-                    <line x1="0" y1="70" x2="100" y2="70" stroke="#c8d8c0" strokeWidth="1.5" />
-                    <line x1="50" y1="0" x2="50" y2="100" stroke="#c8d8c0" strokeWidth="2" />
-                    <line x1="25" y1="0" x2="25" y2="100" stroke="#c8d8c0" strokeWidth="1" />
-                    <rect x="30" y="53" width="40" height="15" rx="1" fill="#d4e8cc" />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-xs font-bold text-gray-500">Ruiru, Kiambu</span>
-                  </div>
-                  {[
-                    { x: "25%", y: "30%", color: "bg-blue-500" },
-                    { x: "50%", y: "35%", color: "bg-blue-500" },
-                    { x: "65%", y: "55%", color: "bg-green-600" },
-                    { x: "35%", y: "65%", color: "bg-green-600" },
-                    { x: "75%", y: "30%", color: "bg-blue-500" },
-                  ].map((p, i) => (
-                    <div key={i} className={`absolute w-3.5 h-3.5 ${p.color} rounded-full border-2 border-white shadow-sm -translate-x-1/2 -translate-y-1/2`} style={{ left: p.x, top: p.y }} />
-                  ))}
-                </div>
-              </div>
-
-              {/* Status & payments */}
-              <div className="px-4 py-3 space-y-2 border-t border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[9px] text-gray-500 font-medium">Verified Status</p>
-                    <p className="text-[10px] font-bold text-gray-800">Verified Status</p>
-                  </div>
-                  <div className="flex items-center gap-1 bg-green-600 text-white rounded-full px-2.5 py-0.5">
-                    <CheckCircle className="w-3 h-3" />
-                    <span className="text-[9px] font-bold">Active</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[9px] text-gray-500 font-medium">Average Rating</p>
-                    <div className="flex items-center gap-0.5 mt-0.5">
-                      {[1,2,3,4].map(i => <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />)}
-                      <Star className="w-3 h-3 fill-yellow-200 text-yellow-300" />
-                      <span className="text-[10px] font-bold text-gray-700 ml-1">4.8</span>
-                    </div>
-                  </div>
-                  <TrendingUp className="w-4 h-4 text-green-500" />
-                </div>
-                <div className="bg-gray-50 rounded-xl p-2">
-                  <p className="text-[9px] text-gray-500 mb-1">Payments <span className="text-orange-500">(KSh 75,000 pending)</span></p>
-                  <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden mb-1.5">
-                    <div className="h-full w-3/4 bg-green-500 rounded-full" />
-                  </div>
-                  <div className="flex justify-between text-[8px] text-gray-500">
-                    <span>Summary</span><span className="font-bold">KSh 75,000</span>
-                  </div>
-                  <div className="flex justify-between text-[8px] text-gray-700 font-bold">
-                    <span>Total Income</span><span>KSh 75,000</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Dashboard image */}
+          <div className="lg:col-span-5 flex justify-center">
+            <img
+              src={dashboardImg}
+              alt="GigaFix Professional Dashboard"
+              className="w-full max-w-lg lg:max-w-none h-auto drop-shadow-2xl"
+            />
           </div>
 
           {/* Right features + form */}
