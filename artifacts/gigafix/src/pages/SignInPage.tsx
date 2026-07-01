@@ -38,9 +38,9 @@ export default function SignInPage() {
         localStorage.setItem("gigafix_session", JSON.stringify({ email, loggedIn: true, role: user.role }));
         setLoading(false);
         if (user.role === "professional") {
-          navigate("/for-professionals");
+          navigate("/pro-dashboard");
         } else {
-          navigate("/welcome");
+          navigate("/dashboard");
         }
       } else {
         setLoading(false);

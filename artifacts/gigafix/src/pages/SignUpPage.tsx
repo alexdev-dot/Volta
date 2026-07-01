@@ -111,7 +111,7 @@ export default function SignUpPage() {
         }));
         navigate("/for-professionals");
       } else {
-        navigate("/welcome");
+        navigate("/dashboard");
       }
     }, 900);
   };

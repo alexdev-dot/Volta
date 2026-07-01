@@ -81,8 +81,13 @@ export default function ProfessionalOnboarding() {
             <span className="font-medium text-gray-600">{storedUser.email || "your email"}</span>{" "}
             once your account is approved.
           </p>
-          <Link href="/">
+          <Link href="/pro-dashboard">
             <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-sm transition-colors">
+              Go to My Dashboard
+            </button>
+          </Link>
+          <Link href="/">
+            <button className="w-full mt-2 border border-gray-200 text-gray-600 font-semibold py-2.5 rounded-lg text-sm hover:bg-gray-50 transition-colors">
               Back to Home
             </button>
           </Link>

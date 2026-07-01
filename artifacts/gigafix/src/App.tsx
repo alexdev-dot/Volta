@@ -3,7 +3,8 @@ import LandingPage from "@/pages/LandingPage";
 import SignInPage from "@/pages/SignInPage";
 import SignUpPage from "@/pages/SignUpPage";
 import ProfessionalOnboarding from "@/pages/ProfessionalOnboarding";
-import CustomerWelcome from "@/pages/CustomerWelcome";
+import CustomerDashboard from "@/pages/CustomerDashboard";
+import ProDashboard from "@/pages/ProDashboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -13,7 +14,9 @@ function Router() {
       <Route path="/sign-in" component={SignInPage} />
       <Route path="/sign-up" component={SignUpPage} />
       <Route path="/for-professionals" component={ProfessionalOnboarding} />
-      <Route path="/welcome" component={CustomerWelcome} />
+      <Route path="/dashboard" component={CustomerDashboard} />
+      <Route path="/welcome" component={CustomerDashboard} />
+      <Route path="/pro-dashboard" component={ProDashboard} />
       <Route component={NotFound} />
     </Switch>
   );
