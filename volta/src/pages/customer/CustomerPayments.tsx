@@ -1,79 +1,23 @@
+import { useState } from "react";
 import { Plus, ChevronRight, MoreHorizontal, MessageCircle, AlertTriangle, Shield, Filter, CheckCircle } from "lucide-react";
-import CustomerNav from "@/components/CustomerNav";
+import CustomerNav from "@/components/navigation/CustomerNav";
+import visaIcon from "../../assets/mobile-icon/visa.jpg";
+import mastercardIcon from "../../assets/mobile-icon/mastercard.png";
+import mpesaIcon from "../../assets/mobile-icon/M-PESA.webp";
 
 const STAT_CARDS = [
-  { icon: "💳", iconBg: "bg-green-50",  label: "Total Spent",           value: "KSh 24,800", sub: "All time" },
-  { icon: "⏳", iconBg: "bg-orange-50", label: "Pending Payments",       value: "KSh 8,600",  sub: "2 Payments" },
-  { icon: "📅", iconBg: "bg-blue-50",   label: "Completed Payments",     value: "KSh 16,200", sub: "12 Payments" },
-  { icon: "🔄", iconBg: "bg-purple-50", label: "Refunds",                value: "KSh 0",      sub: "0 Refunds" },
+  { icon: "💳", iconBg: "bg-green-50",  label: "Total Spent",        value: "KSh 24,800", sub: "All time" },
+  { icon: "⏳", iconBg: "bg-orange-50", label: "Pending Payments",   value: "KSh 8,600",  sub: "2 Payments" },
+  { icon: "📅", iconBg: "bg-blue-50",   label: "Completed Payments", value: "KSh 16,200", sub: "12 Payments" },
+  { icon: "🔄", iconBg: "bg-purple-50", label: "Refunds",            value: "KSh 0",      sub: "0 Refunds" },
 ];
 
 const TXNS = [
-  {
-    img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=120&q=70",
-    title: "Fix Kitchen Sink Leak",
-    pro: "John Kamau (Plumber)",
-    location: "Ruiru, Kiambu County",
-    date: "May 22, 2024",
-    time: "10:00 AM",
-    status: "Completed",
-    amount: "KSh 1,200",
-    sub: "Paid",
-    pending: false,
-    cancelled: false,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&q=70",
-    title: "Install Ceiling Lights",
-    pro: "David Mwangi (Electrician)",
-    location: "Ruiru, Kiambu County",
-    date: "May 20, 2024",
-    time: "2:00 PM",
-    status: "Pending",
-    amount: "KSh 2,000",
-    sub: "Due",
-    pending: true,
-    cancelled: false,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=120&q=70",
-    title: "Sofa Deep Cleaning",
-    pro: "Mary Wanjiku (Cleaner)",
-    location: "Ruiru, Kiambu County",
-    date: "May 18, 2024",
-    time: "9:00 AM",
-    status: "Completed",
-    amount: "KSh 800",
-    sub: "Paid",
-    pending: false,
-    cancelled: false,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=120&q=70",
-    title: "House Painting",
-    pro: "Daniel Mutua (Painter)",
-    location: "Ruiru, Kiambu County",
-    date: "May 15, 2024",
-    time: "11:00 AM",
-    status: "Completed",
-    amount: "KSh 5,500",
-    sub: "Paid",
-    pending: false,
-    cancelled: false,
-  },
-  {
-    img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=120&q=70",
-    title: "AC Repair & Maintenance",
-    pro: "Peter Ndungu (HVAC Technician)",
-    location: "Ruiru, Kiambu County",
-    date: "May 12, 2024",
-    time: "4:00 PM",
-    status: "Cancelled",
-    amount: "KSh 1,500",
-    sub: "Cancelled",
-    pending: false,
-    cancelled: true,
-  },
+  { img: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=120&q=70", title: "Fix Kitchen Sink Leak",   pro: "John Kamau (Plumber)",          location: "Ruiru, Kiambu County", date: "May 22, 2024", time: "10:00 AM", status: "Completed", amount: "KSh 1,200", sub: "Paid",      pending: false, cancelled: false },
+  { img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&q=70",    title: "Install Ceiling Lights", pro: "David Mwangi (Electrician)",    location: "Ruiru, Kiambu County", date: "May 20, 2024", time: "2:00 PM",  status: "Pending",   amount: "KSh 2,000", sub: "Due",       pending: true,  cancelled: false },
+  { img: "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=120&q=70",    title: "Sofa Deep Cleaning",     pro: "Mary Wanjiku (Cleaner)",        location: "Ruiru, Kiambu County", date: "May 18, 2024", time: "9:00 AM",  status: "Completed", amount: "KSh 800",   sub: "Paid",      pending: false, cancelled: false },
+  { img: "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=120&q=70",    title: "House Painting",         pro: "Daniel Mutua (Painter)",        location: "Ruiru, Kiambu County", date: "May 15, 2024", time: "11:00 AM", status: "Completed", amount: "KSh 5,500", sub: "Paid",      pending: false, cancelled: false },
+  { img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=120&q=70", title: "AC Repair & Maintenance",pro: "Peter Ndungu (HVAC Technician)",location: "Ruiru, Kiambu County", date: "May 12, 2024", time: "4:00 PM",  status: "Cancelled", amount: "KSh 1,500", sub: "Cancelled", pending: false, cancelled: true },
 ];
 
 const STATUS_STYLES: Record<string, string> = {
@@ -82,151 +26,124 @@ const STATUS_STYLES: Record<string, string> = {
   Cancelled: "bg-red-50 text-red-500",
 };
 
-/* Mini sparkline SVG */
 function SpendingChart() {
-  const pts = [
-    [0, 70], [30, 55], [65, 40], [100, 50], [135, 20], [170, 10],
-  ];
-  const path = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0]},${p[1]}`).join(" ");
+  const pts: [number, number][] = [[0,70],[30,55],[65,40],[100,50],[135,20],[170,10]];
+  const path = pts.map((p,i) => `${i===0?"M":"L"}${p[0]},${p[1]}`).join(" ");
   const area = path + ` L${pts[pts.length-1][0]},90 L0,90 Z`;
   return (
-    <svg viewBox="0 0 170 90" className="w-full h-28" preserveAspectRatio="none">
+    <svg viewBox="0 0 170 90" className="w-full h-24 sm:h-28" preserveAspectRatio="none">
       <defs>
-        <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#22c55e" stopOpacity="0.15" />
           <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={area} fill="url(#sg)" />
+      <path d={area} fill="url(#sg2)" />
       <path d={path} fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      {pts.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="3" fill="#22c55e" />
-      ))}
+      {pts.map(([x,y],i) => <circle key={i} cx={x} cy={y} r="3" fill="#22c55e" />)}
     </svg>
   );
 }
 
 const PAYMENT_METHODS = [
-  { brand: "VISA",   last4: "4242", expiry: "Expires 12/26", primary: true,  mpesa: false },
-  { brand: "MC",     last4: "5555", expiry: "Expires 08/25", primary: false, mpesa: false },
-  { brand: "MPESA",  last4: "1234", expiry: "M-PESA Account", primary: false, mpesa: true },
+  { brand: "VISA",  last4: "4242", expiry: "Expires 12/26", primary: true,  mpesa: false, img: visaIcon },
+  { brand: "MC",    last4: "5555", expiry: "Expires 08/25", primary: false, mpesa: false, img: mastercardIcon },
+  { brand: "MPESA", last4: "1234", expiry: "M-PESA Account",primary: false, mpesa: true,  img: mpesaIcon },
 ];
 
 export default function CustomerPayments() {
+  const [activeTab, setActiveTab] = useState("All Transactions");
+
   return (
     <div className="min-h-screen bg-white font-sans">
       <CustomerNav active="Payments" />
 
-      <div className="max-w-screen-xl mx-auto px-6 py-8">
-        <div className="flex gap-6">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-5 sm:py-8">
+        <div className="flex gap-5 lg:gap-6">
 
           {/* ── Main column ── */}
           <div className="flex-1 min-w-0">
 
             {/* Header */}
-            <div className="mb-6">
-              <h1 className="text-3xl font-extrabold text-gray-900">Payments</h1>
+            <div className="mb-5 sm:mb-6">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Payments</h1>
               <p className="text-gray-500 text-sm mt-1">Manage your payments, transactions, and payment methods.</p>
             </div>
 
-            {/* Stat cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+            {/* Stat cards — 2 cols on mobile, 4 on sm+ */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 sm:mb-6">
               {STAT_CARDS.map((s) => (
-                <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center gap-3">
-                  <div className={`w-10 h-10 ${s.iconBg} rounded-xl flex items-center justify-center text-lg flex-shrink-0`}>
+                <div key={s.label} className="bg-white border border-gray-100 rounded-2xl p-3 sm:p-4 shadow-sm flex items-center gap-2 sm:gap-3">
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 ${s.iconBg} rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0`}>
                     {s.icon}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-lg font-extrabold text-gray-900 leading-tight">{s.value}</p>
-                    <p className="text-xs text-gray-500 font-medium truncate">{s.label}</p>
-                    <p className="text-[10px] text-gray-400">{s.sub}</p>
+                    <p className="text-base sm:text-lg font-extrabold text-gray-900 leading-tight">{s.value}</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 font-medium truncate leading-tight">{s.label}</p>
+                    <p className="text-[10px] text-gray-400 hidden sm:block">{s.sub}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Tabs + filter */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                {["All Transactions", "Completed", "Pending", "Refunds"].map((tab, i) => (
-                  <button key={tab} className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                    i === 0 ? "bg-green-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-green-400 hover:text-green-600"
-                  }`}>
-                    {i === 0 && <span className="text-lg">📅</span>}
-                    {i === 1 && <CheckCircle className="w-3.5 h-3.5" />}
-                    {i === 2 && <span className="text-base">⏳</span>}
-                    {i === 3 && <span className="text-base">🔄</span>}
+            {/* Tabs + filter — horizontally scrollable on mobile */}
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
+                {["All Transactions", "Completed", "Pending", "Refunds"].map((tab) => (
+                  <button key={tab} onClick={() => setActiveTab(tab)}
+                    className={`flex items-center gap-1 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap flex-shrink-0 ${
+                      activeTab === tab ? "bg-green-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:border-green-400 hover:text-green-600"
+                    }`}>
                     {tab}
                   </button>
                 ))}
               </div>
-              <button className="flex items-center gap-2 border border-gray-200 bg-white text-gray-700 font-semibold text-sm px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors">
-                <Filter className="w-4 h-4" /> Filter
+              <button className="flex items-center gap-1.5 border border-gray-200 bg-white text-gray-700 font-semibold text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors flex-shrink-0">
+                <Filter className="w-3.5 h-3.5" /> Filter
               </button>
             </div>
 
-            {/* Table */}
-            <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm mb-6">
-              {/* Table header */}
-              <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500">
+            {/* ── DESKTOP TABLE (md+) ── */}
+            <div className="hidden md:block bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm mb-5">
+              <div className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-3 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500">
                 <span>Service / Professional</span>
                 <span>Date &amp; Time</span>
                 <span>Status</span>
                 <span>Amount</span>
                 <span>Action</span>
               </div>
-
               <div className="divide-y divide-gray-50">
                 {TXNS.map((t) => (
-                  <div key={t.title} className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center px-5 py-4 hover:bg-gray-50 transition-colors">
-                    {/* Service + Pro */}
+                  <div key={t.title} className="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-3 items-center px-5 py-4 hover:bg-gray-50 transition-colors">
                     <div className="flex items-center gap-3 min-w-0">
                       <img src={t.img} alt={t.title} className="w-14 h-12 object-cover rounded-xl flex-shrink-0" />
                       <div className="min-w-0">
                         <p className="font-semibold text-gray-900 text-sm truncate">{t.title}</p>
-                        <div className="flex items-center gap-1 text-xs text-gray-500 mt-0.5">
-                          <span className="text-gray-600">👤</span>
-                          <span className="truncate">{t.pro}</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
-                          <span>📍</span>
-                          <span className="truncate">{t.location}</span>
-                        </div>
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">👤 {t.pro}</p>
+                        <p className="text-xs text-gray-400 truncate">📍 {t.location}</p>
                       </div>
                     </div>
-
-                    {/* Date */}
                     <div>
                       <p className="text-sm text-gray-700 font-medium">{t.date}</p>
                       <p className="text-xs text-gray-400">{t.time}</p>
                     </div>
-
-                    {/* Status */}
                     <div>
                       <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full ${STATUS_STYLES[t.status]}`}>
                         {t.status === "Completed" && <CheckCircle className="w-3 h-3" />}
-                        {t.status === "Pending"   && <span className="w-3 h-3 text-base leading-none">⏳</span>}
-                        {t.status === "Cancelled" && <span className="w-3 h-3 text-base leading-none">🚫</span>}
+                        {t.status === "Pending"   && <span>⏳</span>}
+                        {t.status === "Cancelled" && <span>🚫</span>}
                         {t.status}
                       </span>
                     </div>
-
-                    {/* Amount */}
                     <div>
                       <p className="font-extrabold text-gray-900 text-sm">{t.amount}</p>
                       <p className="text-xs text-gray-400">{t.sub}</p>
                     </div>
-
-                    {/* Action */}
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {t.pending ? (
-                        <button className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors whitespace-nowrap">
-                          Pay Now
-                        </button>
+                        <button className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors whitespace-nowrap">Pay Now</button>
                       ) : (
-                        <button className="border border-gray-200 text-gray-700 font-semibold text-xs px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors whitespace-nowrap">
-                          View Details
-                        </button>
+                        <button className="border border-gray-200 text-gray-700 font-semibold text-xs px-4 py-2 rounded-xl hover:bg-gray-50 transition-colors whitespace-nowrap">View Details</button>
                       )}
                       <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
                         <MoreHorizontal className="w-4 h-4 text-gray-400" />
@@ -237,21 +154,56 @@ export default function CustomerPayments() {
               </div>
             </div>
 
+            {/* ── MOBILE CARDS (< md) ── */}
+            <div className="md:hidden flex flex-col gap-3 mb-5">
+              {TXNS.map((t) => (
+                <div key={t.title} className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
+                  <div className="flex items-start gap-3 mb-3">
+                    <img src={t.img} alt={t.title} className="w-14 h-12 object-cover rounded-xl flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-900 text-sm truncate">{t.title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">👤 {t.pro}</p>
+                      <p className="text-xs text-gray-400">{t.date} • {t.time}</p>
+                    </div>
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full flex-shrink-0 ${STATUS_STYLES[t.status]}`}>
+                      {t.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-50">
+                    <div>
+                      <p className="font-extrabold text-gray-900">{t.amount}</p>
+                      <p className="text-xs text-gray-400">{t.sub}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {t.pending ? (
+                        <button className="bg-green-600 hover:bg-green-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors">Pay Now</button>
+                      ) : (
+                        <button className="border border-gray-200 text-gray-700 font-semibold text-xs px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors">View Details</button>
+                      )}
+                      <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+                        <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
             {/* Pagination */}
             <div className="flex items-center justify-center gap-1">
-              <button className="flex items-center gap-1.5 px-4 py-2 text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors">
-                <ChevronRight className="w-4 h-4 rotate-180" /> Previous
+              <button className="flex items-center gap-1 px-3 sm:px-4 py-2 text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors">
+                <ChevronRight className="w-4 h-4 rotate-180" /> <span className="hidden sm:inline">Previous</span>
               </button>
               {[1, 2, 3].map((n) => (
                 <button key={n} className={`w-9 h-9 rounded-lg text-sm font-semibold transition-colors ${n === 1 ? "bg-green-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}>{n}</button>
               ))}
-              <button className="flex items-center gap-1.5 px-4 py-2 text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors">
-                Next <ChevronRight className="w-4 h-4" />
+              <button className="flex items-center gap-1 px-3 sm:px-4 py-2 text-sm text-gray-500 hover:text-gray-800 font-medium transition-colors">
+                <span className="hidden sm:inline">Next</span> <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* ── Right sidebar ── */}
+          {/* ── Right sidebar — desktop only ── */}
           <div className="w-64 flex-shrink-0 hidden lg:flex flex-col gap-4">
 
             {/* Payment Methods */}
@@ -266,23 +218,14 @@ export default function CustomerPayments() {
                 {PAYMENT_METHODS.map((m) => (
                   <div key={m.last4} className="flex items-center justify-between p-3 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer group">
                     <div className="flex items-center gap-2.5">
-                      {/* Card brand badge */}
-                      <div className={`w-10 h-7 rounded flex items-center justify-center text-[10px] font-extrabold flex-shrink-0 ${
-                        m.brand === "VISA" ? "bg-blue-600 text-white" :
-                        m.brand === "MC" ? "bg-red-500 text-white" :
-                        "bg-green-600 text-white"
-                      }`}>
-                        {m.brand === "VISA" ? "VISA" : m.brand === "MC" ? "MC" : "M-PESA"}
-                      </div>
+                      <img src={m.img} alt={m.brand} className="w-12 h-8 object-contain flex-shrink-0" />
                       <div>
                         <p className="text-xs font-semibold text-gray-800">•••• •••• •••• {m.last4}</p>
                         <p className="text-[10px] text-gray-400">{m.expiry}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      {m.primary && (
-                        <span className="text-[10px] font-bold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Primary</span>
-                      )}
+                      {m.primary && <span className="text-[10px] font-bold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">Primary</span>}
                       <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500" />
                     </div>
                   </div>
@@ -307,19 +250,11 @@ export default function CustomerPayments() {
               </div>
               <p className="text-2xl font-extrabold text-gray-900 mb-0.5">KSh 6,200</p>
               <p className="text-xs text-gray-500 mb-3">Total Spent</p>
-              {/* Chart */}
-              <div className="relative">
-                <SpendingChart />
-                {/* X-axis labels */}
-                <div className="flex justify-between text-[10px] text-gray-400 mt-1 px-1">
-                  {["May 1", "May 8", "May 15", "May 22", "May 29"].map((l) => (
-                    <span key={l}>{l}</span>
-                  ))}
-                </div>
+              <SpendingChart />
+              <div className="flex justify-between text-[10px] text-gray-400 mt-1 px-1">
+                {["May 1","May 8","May 15","May 22","May 29"].map((l) => <span key={l}>{l}</span>)}
               </div>
-              <button className="mt-3 w-full border border-gray-200 text-gray-700 font-semibold text-xs py-2.5 rounded-xl hover:bg-gray-50 transition-colors">
-                View Full Report
-              </button>
+              <button className="mt-3 w-full border border-gray-200 text-gray-700 font-semibold text-xs py-2.5 rounded-xl hover:bg-gray-50 transition-colors">View Full Report</button>
             </div>
 
             {/* Need Help? */}

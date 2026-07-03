@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MapPin, ChevronDown, Menu, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import logoImage from "../assets/logo/Primary logo.png";
+import logoImage from "../../assets/logo/Primary logo.png";
 
 const navLinks = [
   { label: "Home", href: "/" },

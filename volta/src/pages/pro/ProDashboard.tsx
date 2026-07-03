@@ -1,6 +1,6 @@
 import { ChevronRight, Star, ArrowUp, Briefcase, CheckSquare, DollarSign, User, FolderOpen, FileText, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
-import ProNav from "@/components/ProNav";
+import ProNav from "@/components/navigation/ProNav";
 
 const JOBS = [
   {

@@ -4,9 +4,9 @@ import {
   Wrench, Droplets, Zap, Home, Car, Scissors,
   SlidersHorizontal, Filter, ChevronDown, Clock, Wifi
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import CtaBanner from "@/components/CtaBanner";
-import mapImg from "@/assets/map-view.png";
+import Navbar from "@/components/navigation/Navbar";
+import CtaBanner from "@/components/landing/CtaBanner";
+import mapImg from "@/assets/mockups/map-view.png";
 
 const CATEGORIES = [
   { id: "all",        label: "All Services",   icon: Home,     color: "bg-gray-100 text-gray-700", active: "bg-green-600 text-white" },

@@ -1,22 +1,29 @@
 import { useState, useEffect, useRef } from "react";
-import { Bell, ChevronDown, MapPin, Menu, X, User, LogOut, Settings } from "lucide-react";
+import { Bell, MessageSquare, Menu, X, User, LogOut, Settings } from "lucide-react";
 import { Link } from "wouter";
-import logoImage from "../assets/logo/Primary logo.png";
+import logoImage from "../../assets/logo/Primary logo.png";
 
-interface CustomerNavProps {
+interface ProNavProps {
   active: string;
+  showChat?: boolean;
 }
 
 const ALL_LINKS = [
-  { label: "Home",          href: "/dashboard" },
-  { label: "Find Services", href: "/customer/services" },
-  { label: "Bookings",      href: "/customer/bookings" },
-  { label: "Chats",         href: "/customer/chats" },
-  { label: "My Job",        href: "/customer/jobs" },
-  { label: "Payments",      href: "/customer/payments" },
+  { label: "Dashboard",   href: "/pro-dashboard" },
+  { label: "My Schedule", href: "/pro/schedule" },
+  { label: "Job Feed",    href: "/pro/jobs" },
+  { label: "Quotes",      href: "/pro/quotes" },
+  { label: "Chats",       href: "/pro/chats" },
+  { label: "Earnings",    href: "/pro/earnings" },
+  { label: "Reviews",     href: "/pro/reviews" },
 ];
 
-export default function CustomerNav({ active }: CustomerNavProps) {
+// Pages that pass showChat=true want the full nav; others show a shorter set
+const DEFAULT_LINKS = ALL_LINKS.filter(
+  (l) => !["Chats", "Earnings", "Reviews"].includes(l.label)
+);
+
+export default function ProNav({ active, showChat = false }: ProNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -25,8 +32,10 @@ export default function CustomerNav({ active }: CustomerNavProps) {
   const stored = (() => {
     try { return JSON.parse(localStorage.getItem("volta_user") || "{}"); } catch { return {}; }
   })();
-  const firstName = stored.firstName || "there";
-  const location  = stored.location  || "Ruiru, Kiambu County";
+  const firstName = stored.firstName || "Pro";
+
+  // Restore original filtering behaviour: showChat shows all links, others show DEFAULT_LINKS
+  const visibleLinks = showChat ? ALL_LINKS : DEFAULT_LINKS;
 
   // Close on Escape
   useEffect(() => {
@@ -60,7 +69,7 @@ export default function CustomerNav({ active }: CustomerNavProps) {
             </div>
           </Link>
           <nav className="hidden lg:flex items-center gap-6">
-            {ALL_LINKS.map((l) => (
+            {visibleLinks.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
@@ -78,15 +87,15 @@ export default function CustomerNav({ active }: CustomerNavProps) {
 
         {/* Right side */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <button className="hidden md:flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 rounded-full px-3 py-1.5 hover:border-gray-300 transition-colors">
-            <MapPin className="w-3.5 h-3.5 text-green-600" />
-            <span className="truncate max-w-[120px]">{location}</span>
-            <ChevronDown className="w-3.5 h-3.5" />
-          </button>
           <button className="relative p-2">
             <Bell className="w-5 h-5 text-gray-500" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
           </button>
+          {showChat && (
+            <button className="p-2">
+              <MessageSquare className="w-5 h-5 text-gray-500" />
+            </button>
+          )}
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -97,13 +106,13 @@ export default function CustomerNav({ active }: CustomerNavProps) {
               </div>
               <div className="hidden md:block text-left">
                 <p className="text-xs font-semibold text-gray-900 leading-none">{firstName}</p>
-                <p className="text-[10px] text-gray-400 leading-none mt-0.5">Customer</p>
+                <p className="text-[10px] text-green-600 font-semibold leading-none mt-0.5">Professional</p>
               </div>
             </button>
             {profileOpen && (
               <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
                 <Link
-                  href="/customer/profile"
+                  href="/pro/profile"
                   onClick={() => setProfileOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
@@ -111,7 +120,7 @@ export default function CustomerNav({ active }: CustomerNavProps) {
                   Profile
                 </Link>
                 <Link
-                  href="/customer/settings"
+                  href="/pro/settings"
                   onClick={() => setProfileOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                 >
@@ -133,12 +142,12 @@ export default function CustomerNav({ active }: CustomerNavProps) {
           </div>
           {/* Hamburger — mobile only */}
           <button
-            id="customer-nav-toggle"
+            id="pro-nav-toggle"
             className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
-            aria-controls="customer-mobile-menu"
+            aria-controls="pro-mobile-menu"
           >
             {mobileOpen ? <X className="w-5 h-5 text-gray-700" /> : <Menu className="w-5 h-5 text-gray-700" />}
           </button>
@@ -148,12 +157,12 @@ export default function CustomerNav({ active }: CustomerNavProps) {
       {/* Mobile menu drawer */}
       {mobileOpen && (
         <div
-          id="customer-mobile-menu"
+          id="pro-mobile-menu"
           ref={drawerRef}
           className="lg:hidden bg-white border-t border-gray-100 shadow-lg"
         >
           <nav className="max-w-screen-xl mx-auto px-4 py-3 flex flex-col gap-1">
-            {ALL_LINKS.map((l) => (
+            {visibleLinks.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
@@ -167,11 +176,6 @@ export default function CustomerNav({ active }: CustomerNavProps) {
                 {l.label}
               </Link>
             ))}
-            {/* Location row in mobile menu */}
-            <div className="flex items-center gap-1.5 px-3 py-2.5 text-sm text-gray-500 border-t border-gray-100 mt-1 pt-3">
-              <MapPin className="w-3.5 h-3.5 text-green-600 flex-shrink-0" />
-              <span className="truncate">{location}</span>
-            </div>
           </nav>
         </div>
       )}

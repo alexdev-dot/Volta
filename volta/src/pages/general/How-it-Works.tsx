@@ -1,10 +1,10 @@
 import { ArrowRight, CheckCircle, Monitor, UserSearch, CalendarCheck, MapPin } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import CtaBanner from "@/components/CtaBanner";
-import stepChoose from "@/assets/step-choose.png";
-import stepMatch from "@/assets/step-match.png";
-import stepBook from "@/assets/step-book.png";
-import stepTrack from "@/assets/step-track.png";
+import Navbar from "@/components/navigation/Navbar";
+import CtaBanner from "@/components/landing/CtaBanner";
+import stepChoose from "@/assets/steps/step-choose.png";
+import stepMatch from "@/assets/steps/step-match.png";
+import stepBook from "@/assets/steps/step-book.png";
+import stepTrack from "@/assets/steps/step-track.png";
 
 const STEPS = [
   { label: "Choose Your Service", img: stepChoose },

@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Calendar, Plus, CheckCircle2, XCircle, Clock, CalendarDays, User, MapPin, MoreVertical } from "lucide-react";
-import ProNav from "@/components/ProNav";
+import ProNav from "@/components/navigation/ProNav";
 
 const DAYS_OF_WEEK = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 

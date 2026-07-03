@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { CheckCircle, Star, Users, CreditCard, Calendar, BarChart2, Bell, Zap, Shield, ChevronDown } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import CtaBanner from "@/components/CtaBanner";
-import dashboardImg from "@/assets/dashboard-mockup.png";
+import Navbar from "@/components/navigation/Navbar";
+import CtaBanner from "@/components/landing/CtaBanner";
+import dashboardImg from "@/assets/mockups/dashboard-mockup.png";
 
 const SERVICES = ["Plumbing","Electrical","Carpentry","Cleaning","Painting","HVAC","Mechanic","Masonry","Landscaping","Other"];
 

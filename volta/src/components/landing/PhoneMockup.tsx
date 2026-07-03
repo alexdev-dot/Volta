@@ -1,11 +1,11 @@
 import { MapPin, ChevronDown, Bell, Menu, Search, Star, Heart, Home, CalendarDays, MessageSquare, User, Shield } from "lucide-react";
-import logoImage from "../assets/logo/Primary logo.png";
-import plumbingIcon from "../assets/logo/services-icon/plumbing.png";
-import electricalIcon from "../assets/logo/services-icon/flash.png";
-import carpentryIcon from "../assets/logo/services-icon/workplace.png";
-import cleaningIcon from "../assets/logo/services-icon/mop.png";
-import constructionIcon from "../assets/logo/services-icon/helmet.png";
-import mechanicsIcon from "../assets/logo/services-icon/mechanics.png";
+import logoImage from "../../assets/logo/Primary logo.png";
+import plumbingIcon from "../../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../../assets/logo/services-icon/mop.png";
+import constructionIcon from "../../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../../assets/logo/services-icon/mechanics.png";
 
 const categories = [
   { name: "Plumbing",     icon: plumbingIcon,   bg: "#EFF6FF" },

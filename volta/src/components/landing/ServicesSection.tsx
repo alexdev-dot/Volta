@@ -1,11 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
-import plumbingIcon from "../assets/logo/services-icon/plumbing.png";
-import electricalIcon from "../assets/logo/services-icon/flash.png";
-import carpentryIcon from "../assets/logo/services-icon/workplace.png";
-import cleaningIcon from "../assets/logo/services-icon/mop.png";
-import constructionIcon from "../assets/logo/services-icon/helmet.png";
-import mechanicsIcon from "../assets/logo/services-icon/mechanics.png";
+import plumbingIcon from "../../assets/logo/services-icon/plumbing.png";
+import electricalIcon from "../../assets/logo/services-icon/flash.png";
+import carpentryIcon from "../../assets/logo/services-icon/workplace.png";
+import cleaningIcon from "../../assets/logo/services-icon/mop.png";
+import constructionIcon from "../../assets/logo/services-icon/helmet.png";
+import mechanicsIcon from "../../assets/logo/services-icon/mechanics.png";
 
 const services = [
   {

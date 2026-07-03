@@ -1,5 +1,5 @@
-import googlePlayIcon from "../assets/mobile-icon/google-playstore.png";
-import appStoreIcon from "../assets/mobile-icon/app-store.png";
+import googlePlayIcon from "../../assets/mobile-icon/google-playstore.png";
+import appStoreIcon from "../../assets/mobile-icon/app-store.png";
 
 export default function CtaBanner() {
   return (

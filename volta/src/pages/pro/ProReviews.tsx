@@ -1,5 +1,5 @@
 import { Star, ChevronDown, MoreVertical, Download, ChevronRight, Users, TrendingUp } from "lucide-react";
-import ProNav from "@/components/ProNav";
+import ProNav from "@/components/navigation/ProNav";
 
 const REVIEWS = [
   {

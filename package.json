@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "pnpm --filter volta run dev",
-    "build": "pnpm --filter volta run build",
-    "typecheck": "pnpm --filter volta run typecheck"
+    "dev": "cd volta && pnpm dev",
+    "build": "cd volta && pnpm build",
+    "typecheck": "cd volta && pnpm typecheck"
   },
   "private": true
 }

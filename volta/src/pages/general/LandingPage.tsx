@@ -1,8 +1,8 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import ServicesSection from "@/components/ServicesSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import CtaBanner from "@/components/CtaBanner";
+import Navbar from "@/components/navigation/Navbar";
+import HeroSection from "@/components/landing/HeroSection";
+import ServicesSection from "@/components/landing/ServicesSection";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import CtaBanner from "@/components/landing/CtaBanner";
 
 export default function LandingPage() {
   return (

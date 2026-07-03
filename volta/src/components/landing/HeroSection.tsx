@@ -1,6 +1,6 @@
 import { CheckCircle, Star, ArrowRight, Shield, MapPin, CreditCard, Headphones } from "lucide-react";
 import { Link } from "wouter";
-import PhoneMockup from "@/components/PhoneMockup";
+import PhoneMockup from "@/components/landing/PhoneMockup";
 
 const avatars = [
   "https://i.pravatar.cc/40?img=1",

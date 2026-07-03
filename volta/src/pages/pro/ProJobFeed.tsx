@@ -1,5 +1,5 @@
 import { Search, SlidersHorizontal, Plus, MapPin, Calendar, Bookmark, ChevronRight, Briefcase, Clock, CheckSquare, Bell } from "lucide-react";
-import ProNav from "@/components/ProNav";
+import ProNav from "@/components/navigation/ProNav";
 
 const CATEGORIES = ["All Categories", "Plumbing", "Electrical", "Carpentry", "Cleaning", "Painting", "Landscaping", "HVAC", "Appliance Repair"];
 
