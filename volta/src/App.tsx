@@ -16,6 +16,8 @@ import CustomerProfile from "@/pages/customer/CustomerProfile";
 import ProDashboard from "@/pages/pro/ProDashboard";
 import ProSchedule from "@/pages/pro/ProSchedule";
 import ProJobFeed from "@/pages/pro/ProJobFeed";
+import ProChats from "@/pages/pro/ProChats";
+import ProEarnings from "@/pages/pro/ProEarnings";
 import ProReviews from "@/pages/pro/ProReviews";
 import NotFound from "@/pages/general/not-found";
 
@@ -43,6 +45,8 @@ function Router() {
       <Route path="/pro-dashboard" component={ProDashboard} />
       <Route path="/pro/schedule" component={ProSchedule} />
       <Route path="/pro/jobs" component={ProJobFeed} />
+      <Route path="/pro/chats" component={ProChats} />
+      <Route path="/pro/earnings" component={ProEarnings} />
       <Route path="/pro/reviews" component={ProReviews} />
       <Route component={NotFound} />
     </Switch>
