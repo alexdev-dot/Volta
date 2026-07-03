@@ -95,11 +95,11 @@ export default function CustomerFindServices() {
         </div>
 
         {/* Pro grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           {PROS.map((pro) => (
-            <div key={pro.name} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow group">
-              <div className="relative">
-                <img src={pro.img} alt={pro.name} className="w-full h-44 object-cover" />
+            <div key={pro.name} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow group flex">
+              <div className="relative w-32 sm:w-40 flex-shrink-0">
+                <img src={pro.img} alt={pro.name} className="w-full h-full object-cover" />
                 <div className={`absolute top-3 left-3 flex items-center gap-1 ${pro.statusColor} text-white text-[10px] font-bold px-2 py-0.5 rounded-full`}>
                   <div className="w-1.5 h-1.5 bg-white rounded-full" />
                   {pro.status}
@@ -108,7 +108,7 @@ export default function CustomerFindServices() {
                   <Heart className="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors" />
                 </button>
               </div>
-              <div className="p-3">
+              <div className="p-3 flex-1 flex flex-col justify-center">
                 <div className="flex items-center gap-1 mb-0.5">
                   <p className="font-bold text-gray-900 text-sm">{pro.name}</p>
                   <CheckCircle className="w-3.5 h-3.5 text-green-500 fill-green-500 flex-shrink-0" />
