@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Bell, MessageSquare, Menu, X, User, LogOut, Settings } from "lucide-react";
+import { Bell, MessageSquare, Menu, X, User, LogOut, Settings, ChevronDown } from "lucide-react";
 import { Link } from "wouter";
 import logoImage from "../../assets/logo/Primary logo.png";
 
@@ -9,21 +9,16 @@ interface ProNavProps {
 }
 
 const ALL_LINKS = [
-  { label: "Dashboard",   href: "/pro-dashboard" },
-  { label: "My Schedule", href: "/pro/schedule" },
-  { label: "Job Feed",    href: "/pro/jobs" },
-  { label: "Quotes",      href: "/pro/quotes" },
-  { label: "Chats",       href: "/pro/chats" },
-  { label: "Earnings",    href: "/pro/earnings" },
-  { label: "Reviews",     href: "/pro/reviews" },
+  { label: "Dashboard",   href: "/pro-dashboard",  badge: null },
+  { label: "My Schedule", href: "/pro/schedule",    badge: null },
+  { label: "Job Feed",    href: "/pro/jobs",        badge: null },
+  { label: "Quotes",      href: "/pro/quotes",      badge: null },
+  { label: "Chats",       href: "/pro/chats",       badge: 3    },
+  { label: "Earnings",    href: "/pro/earnings",    badge: null },
+  { label: "Reviews",     href: "/pro/reviews",     badge: null },
 ];
 
-// Pages that pass showChat=true want the full nav; others show a shorter set
-const DEFAULT_LINKS = ALL_LINKS.filter(
-  (l) => !["Chats", "Earnings", "Reviews"].includes(l.label)
-);
-
-export default function ProNav({ active, showChat = false }: ProNavProps) {
+export default function ProNav({ active, showChat: _showChat = false }: ProNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -32,10 +27,9 @@ export default function ProNav({ active, showChat = false }: ProNavProps) {
   const stored = (() => {
     try { return JSON.parse(localStorage.getItem("volta_user") || "{}"); } catch { return {}; }
   })();
-  const firstName = stored.firstName || "Pro";
+  const firstName = stored.firstName || "Gijag";
 
-  // Restore original filtering behaviour: showChat shows all links, others show DEFAULT_LINKS
-  const visibleLinks = showChat ? ALL_LINKS : DEFAULT_LINKS;
+  const visibleLinks = ALL_LINKS;
 
   // Close on Escape
   useEffect(() => {
@@ -68,38 +62,43 @@ export default function ProNav({ active, showChat = false }: ProNavProps) {
               <img src={logoImage} alt="VOLTA" className="h-7 w-auto" />
             </div>
           </Link>
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-5">
             {visibleLinks.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
-                className={`text-sm font-medium transition-colors pb-0.5 ${
+                className={`relative text-sm font-medium transition-colors pb-0.5 flex items-center gap-1 ${
                   active === l.label
                     ? "text-green-600 font-semibold border-b-2 border-green-600"
                     : "text-gray-500 hover:text-gray-800"
                 }`}
               >
                 {l.label}
+                {l.badge && (
+                  <span className="inline-flex items-center justify-center w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full">
+                    {l.badge}
+                  </span>
+                )}
               </Link>
             ))}
           </nav>
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button className="relative p-2">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <button className="relative p-2" aria-label="Notifications">
             <Bell className="w-5 h-5 text-gray-500" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span>
           </button>
-          {showChat && (
-            <button className="p-2">
-              <MessageSquare className="w-5 h-5 text-gray-500" />
-            </button>
-          )}
+          <button className="p-2" aria-label="Messages">
+            <MessageSquare className="w-5 h-5 text-gray-500" />
+          </button>
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer ml-1"
+              aria-label="Profile menu"
+              aria-expanded={profileOpen}
             >
               <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
                 <span className="text-white font-bold text-sm">{firstName[0]?.toUpperCase()}</span>
@@ -108,6 +107,7 @@ export default function ProNav({ active, showChat = false }: ProNavProps) {
                 <p className="text-xs font-semibold text-gray-900 leading-none">{firstName}</p>
                 <p className="text-[10px] text-green-600 font-semibold leading-none mt-0.5">Professional</p>
               </div>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400 hidden md:block" />
             </button>
             {profileOpen && (
               <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
