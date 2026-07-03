@@ -54,7 +54,7 @@ export default function CustomerDashboard() {
               {/* Left content */}
               <div className="relative z-10 p-6 pr-0 max-w-[58%]">
                 <p className="text-gray-600 text-sm font-medium mb-2">Hello, {firstName} 👋</p>
-                <h1 className="text-3xl font-extrabold text-gray-900 leading-tight mb-2">
+                <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-2">
                   Reliable help,<br />
                   <span className="text-green-600">right when</span> you need it.
                 </h1>
