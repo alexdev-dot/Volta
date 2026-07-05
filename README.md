@@ -8,7 +8,7 @@ A React + Vite frontend for a home-services marketplace connecting customers wit
 - **Styling**: Tailwind CSS v4 + shadcn/ui (Radix UI)
 - **Routing**: Wouter
 - **State**: TanStack Query
-- **Package manager**: pnpm (workspace layout — app lives in `volta/`)
+- **Package manager**: pnpm
 
 ## Running the app
 
@@ -22,7 +22,7 @@ Start the development server:
 pnpm dev
 ```
 
-The dev server starts on port 5000 and hot-reloads on file changes.
+The dev server starts on port 5173 and hot-reloads on file changes.
 
 Build for production:
 ```bash
@@ -32,15 +32,13 @@ pnpm build
 ## Project layout
 
 ```
-volta/          ← Vite app
-  src/
-    pages/      ← Route-level components (LandingPage, CustomerDashboard, ProDashboard, …)
-    components/ ← Shared UI components (Navbar, HeroSection, shadcn/ui wrappers, …)
-    hooks/      ← Custom React hooks
-    lib/        ← Utilities
-  vite.config.ts
-  package.json
-pnpm-workspace.yaml
+src/
+  pages/      ← Route-level components (LandingPage, CustomerDashboard, ProDashboard, …)
+  components/ ← Shared UI components (Navbar, HeroSection, shadcn/ui wrappers, …)
+  hooks/      ← Custom React hooks
+  lib/        ← Utilities
+vite.config.ts
+package.json
 ```
 
 ## Key routes
