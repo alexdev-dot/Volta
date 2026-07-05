@@ -1,0 +1,33 @@
+{
+  "name": "volta-backend",
+  "version": "1.0.0",
+  "description": "VOLTA Marketplace Backend Logic",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/server.js",
+    "dev:server": "ts-node src/server.ts"
+  },
+  "keywords": [
+    "volta",
+    "marketplace",
+    "backend"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1"
+  }
+}
